@@ -1,0 +1,27 @@
+{
+  "project": {
+    "name": "Antzer - AWS Classic Game Challenge",
+    "description": "Retro arcade game inspired by Frogger, built with Phaser 3 and TypeScript",
+    "type": "web-game",
+    "framework": "phaser3",
+    "language": "typescript"
+  },
+  "build": {
+    "command": "npm run build",
+    "outputDir": "dist",
+    "devCommand": "npm start"
+  },
+  "testing": {
+    "framework": "none",
+    "testDir": "tests"
+  },
+  "deployment": {
+    "platform": "github-pages",
+    "url": "https://cebert.github.io/antzer-aws-classic-game-challenge/"
+  },
+  "preferences": {
+    "codeStyle": "typescript-standard",
+    "indentation": "spaces",
+    "indentSize": 2
+  }
+}
