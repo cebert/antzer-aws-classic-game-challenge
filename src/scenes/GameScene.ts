@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
-import { SceneKeys, AudioKeys, ImageKeys, AnimationKeys, GRID_SIZE, COLLECTIBLE_POINTS, OBSTACLE_SPEED_MIN, OBSTACLE_SPEED_MAX } from '../config/Constants';
-import { Player } from '../objects/Player';
-import { Obstacle, ObstacleType } from '../objects/Obstacle';
-import { Collectible, CollectibleType } from '../objects/Collectible';
-import { Platform, PlatformType } from '../objects/Platform';
-import { AudioManager } from '../utils/AudioManager';
+import { AudioKeys, GRID_SIZE, ImageKeys, SceneKeys } from '../config/Constants';
 import { LEVEL_1, LEVEL_1_CONFIG, validateLevel } from '../config/Level1';
+import { Collectible, CollectibleType } from '../objects/Collectible';
+import { Obstacle, ObstacleType } from '../objects/Obstacle';
+import { Platform, PlatformType } from '../objects/Platform';
+import { Player } from '../objects/Player';
+import { AudioManager } from '../utils/AudioManager';
 
 // Grid cell types
 enum CellType {
@@ -51,8 +51,6 @@ export class GameScene extends Phaser.Scene {
   private timeText!: Phaser.GameObjects.Text;
   private startTime: number = 0;
   private gameMusic!: Phaser.Sound.BaseSound;
-  private collectSound!: Phaser.Sound.BaseSound;
-  private winSound!: Phaser.Sound.BaseSound;
   private audioManager!: AudioManager;
   
   private gameOver: boolean = false;
@@ -79,8 +77,6 @@ export class GameScene extends Phaser.Scene {
     if (levelErrors.length > 0) {
       console.error('❌ Level validation errors:', levelErrors);
       levelErrors.forEach(error => console.error(`  - ${error}`));
-    } else {
-      console.log('✅ Level validation passed');
     }
     
     // Initialize audio manager
@@ -171,8 +167,8 @@ export class GameScene extends Phaser.Scene {
     
     // Set up sounds
     this.gameMusic = this.audioManager.add(AudioKeys.MUSIC_GAME, { loop: true, volume: 0.4 });
-    this.collectSound = this.audioManager.add(AudioKeys.SFX_COLLECT, { volume: 0.5 });
-    this.winSound = this.audioManager.add(AudioKeys.SFX_WIN, { volume: 0.6 });
+    this.audioManager.add(AudioKeys.SFX_COLLECT, { volume: 0.5 });
+    this.audioManager.add(AudioKeys.SFX_WIN, { volume: 0.6 });
     
     // Start music after user interaction (required by modern browsers)
     this.startGameMusicOnInteraction();
@@ -331,7 +327,6 @@ export class GameScene extends Phaser.Scene {
 
   private createLevel(): void {
     const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
     
     // Create water zones - 3 water rows: LOG, LEAF, LOG (rows 2-4)
     for (let i = 0; i < 3; i++) {
@@ -365,8 +360,6 @@ export class GameScene extends Phaser.Scene {
       const platformSpacing = platformWidth + 50; // Small gap between platforms
       const platformCount = Math.ceil((width + 400) / platformSpacing); // Cover screen + buffer
       
-      console.log(`🚀 Creating ${platformCount} initial ${platformType === PlatformType.LOG ? 'LOG' : 'LEAF'} platforms for row ${waterRow}`);
-      
       for (let j = 0; j < platformCount; j++) {
         let platformX;
         
@@ -396,7 +389,6 @@ export class GameScene extends Phaser.Scene {
           } else {
             platform.setVelocityX(speed);
           }
-          console.log(`🔧 Backup velocity set for platform: ${platform.body?.velocity?.x}`);
         });
       }
     }
@@ -406,65 +398,6 @@ export class GameScene extends Phaser.Scene {
     // Place collectibles in grid system and create visual sprites
     this.placeCollectibles();
     this.createCollectibleSprites();
-  }
-
-  private addCollectibles(): void {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-    
-    // Add cherries (10 points each) - place only in grass areas
-    for (let i = 0; i < 8; i++) {
-      const x = Phaser.Math.Between(50, width - 50);
-      let y;
-      
-      // Only place in bottom grass area (starting area) - rows 11+
-      const grassStartRow = 11;
-      const grassRows = Math.ceil(height / GRID_SIZE) - grassStartRow;
-      y = Phaser.Math.Between(grassStartRow * GRID_SIZE + 10, height - 20);
-      
-      const cherry = new Collectible(
-        this,
-        x,
-        y,
-        CollectibleType.CHERRY
-      );
-      
-      this.collectibles.add(cherry);
-    }
-    
-    // Add cookies (20 points each) - place only in grass areas  
-    for (let i = 0; i < 3; i++) {
-      const x = Phaser.Math.Between(50, width - 50);
-      let y;
-      
-      // Place some in top grass (goal area) for reward
-      if (i < 2) {
-        // Top grass area - rows 0-1
-        y = Phaser.Math.Between(10, GRID_SIZE * 2 - 10);
-      } else {
-        // Bottom grass area
-        const grassStartRow = 11;
-        y = Phaser.Math.Between(grassStartRow * GRID_SIZE + 10, height - 20);
-      }
-      
-      const cookie = new Collectible(
-        this,
-        x,
-        y,
-        CollectibleType.COOKIE
-      );
-      
-      this.collectibles.add(cookie);
-    }
-  }
-
-  private isInWater(y: number): boolean {
-    for (const waterZone of this.waterZones) {
-      if (y >= waterZone.y && y <= waterZone.y + waterZone.height) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private checkGridCollision(): void {
@@ -506,19 +439,16 @@ export class GameScene extends Phaser.Scene {
     // Special handling for water - check if player is on a platform
     if (cell.type === CellType.WATER) {
       const isOnPlatform = this.isOnPlatform(playerRow, playerCol);
-      console.log(`🌊 Player in water - on platform: ${isOnPlatform}`);
       if (isOnPlatform) {
         // Player is safe on a platform, move with it
         this.movePlayerWithPlatform(playerRow);
       } else {
         // Player is in water without a platform - die
-        console.log('💀 DEATH: Player in water without platform');
         this.playerDie();
         return;
       }
     } else if (!cell.safe) {
       // Handle other unsafe cells (roads with obstacles, etc.)
-      console.log(`💀 DEATH: Unsafe cell - type: ${cell.type}, object: ${cell.object}`);
       this.playerDie();
       return;
     }
@@ -537,53 +467,6 @@ export class GameScene extends Phaser.Scene {
     });
   }
   
-  private isObstacleInSquare(row: number, col: number): boolean {
-    // Check if any obstacle is in this grid square
-    let obstacleFound = false;
-    
-    this.obstacles.getChildren().forEach((obstacle) => {
-      const obstacleSprite = obstacle as Phaser.Physics.Arcade.Sprite;
-      const obstacleRow = Math.floor(obstacleSprite.y / GRID_SIZE);
-      const obstacleCol = Math.floor(obstacleSprite.x / GRID_SIZE);
-      
-      if (obstacleRow === row && obstacleCol === col) {
-        obstacleFound = true;
-      }
-    });
-    
-    return obstacleFound;
-  }
-  
-  private checkCollectiblesInSquare(row: number, col: number): void {
-    // Check if any collectible is in this grid square and collect it
-    this.collectibles.getChildren().forEach((collectible) => {
-      const collectibleSprite = collectible as any;
-      const collectibleRow = Math.floor(collectibleSprite.y / GRID_SIZE);
-      const collectibleCol = Math.floor(collectibleSprite.x / GRID_SIZE);
-      
-      if (collectibleRow === row && collectibleCol === col && collectibleSprite.active) {
-        // Collect the item
-        this.score += collectibleSprite.getPointValue();
-        this.scoreText.setText(`Score: ${this.score}`);
-        this.audioManager.play(AudioKeys.SFX_COLLECT);
-        collectibleSprite.collect();
-      }
-    });
-  }
-  
-  private getSquareType(row: number, col: number): string {
-    if (row <= 1) {
-      return 'safe_grass'; // Top grass area (goal)
-    } else if (row >= 2 && row <= 4) {
-      return 'water'; // Water areas with platforms
-    } else if (row >= 5 && row <= 7) {
-      return 'road'; // Road areas with obstacles  
-    } else if (row >= 8) {
-      return 'safe_grass'; // Bottom grass area (starting area)
-    }
-    return 'safe_grass';
-  }
-  
   private isOnPlatform(row: number, col: number): boolean {
     // Check if there's a platform in this grid square
     let onPlatform = false;
@@ -591,7 +474,6 @@ export class GameScene extends Phaser.Scene {
     this.platforms.getChildren().forEach((platform) => {
       const platformSprite = platform as Phaser.Physics.Arcade.Sprite;
       const platformRow = Math.floor(platformSprite.y / GRID_SIZE);
-      const platformCol = Math.floor(platformSprite.x / GRID_SIZE);
       
       // Check if platform overlaps with player's grid position
       if (platformRow === row) {
@@ -648,47 +530,9 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
-  private handleCollectItem(
-    player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
-    collectibleObj: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-  ): void {
-    const collectible = collectibleObj as unknown as Collectible;
-    
-    // Add points
-    this.score += collectible.getPointValue();
-    this.scoreText.setText(`Score: ${this.score}`);
-    
-    // Play sound
-    this.audioManager.play(AudioKeys.SFX_COLLECT);
-    
-    // Collect item
-    collectible.collect();
-  }
-
-  private handleObstacleCollision(
-    player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
-    obstacle: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
-  ): void {
-    if (this.player.isPlayerDead()) return;
-    
-    // Player dies
-    this.player.die();
-    this.gameOver = true;
-    
-    // Show game over after a delay
-    this.time.delayedCall(1500, () => {
-      this.audioManager.stop(AudioKeys.MUSIC_GAME);
-      this.scene.start(SceneKeys.GAME_OVER, {
-        score: this.score,
-        time: this.getElapsedTime(),
-        won: false
-      });
-    });
-  }
-
   private handleWin(
-    player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
-    antHill: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
+    _player: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile,
+    _antHill: Phaser.Types.Physics.Arcade.GameObjectWithBody | Phaser.Tilemaps.Tile
   ): void {
     if (this.gameWon) return;
     
@@ -819,20 +663,6 @@ export class GameScene extends Phaser.Scene {
     }
   }
   
-  private getCellType(row: number): CellType {
-    if (row <= 1) {
-      return CellType.SAFE_GRASS; // Top grass area (goal)
-    } else if (row >= 2 && row <= 4) {
-      return CellType.WATER; // Water areas with platforms
-    } else if (row == 5) {
-      return CellType.SAFE_GRASS; // Middle safe zone
-    } else if (row >= 6 && row <= 8) {
-      return CellType.ROAD; // Road areas with obstacles  
-    } else {
-      return CellType.SAFE_GRASS; // Bottom grass area (starting area)
-    }
-  }
-  
   private isCellSafe(cellType: CellType, objectType: GridObjectType): boolean {
     switch (cellType) {
       case CellType.SAFE_GRASS:
@@ -844,13 +674,6 @@ export class GameScene extends Phaser.Scene {
       default:
         return true;
     }
-  }
-  
-  private setupLevelObjects(): void {
-    // Ant hill is already placed by initializeGrid() reading the level definition
-    
-    // Place collectibles in safe grass areas
-    this.placeCollectibles();
   }
   
   private setGridCell(row: number, col: number, objectType: GridObjectType): void {
@@ -901,8 +724,6 @@ export class GameScene extends Phaser.Scene {
             ? CollectibleType.CHERRY 
             : CollectibleType.COOKIE;
           
-          const points = cell.object === GridObjectType.CHERRY ? 10 : 20;
-          
           const collectible = new Collectible(
             this,
             x,
@@ -951,7 +772,6 @@ export class GameScene extends Phaser.Scene {
     this.platforms.getChildren().forEach((platform) => {
       const platformSprite = platform as Phaser.Physics.Arcade.Sprite;
       const row = Math.floor(platformSprite.y / GRID_SIZE);
-      const col = Math.floor(platformSprite.x / GRID_SIZE);
       
       // Clear old position and set new position
       // This is simplified - in a full implementation you'd track which cells each platform occupies
@@ -994,7 +814,6 @@ export class GameScene extends Phaser.Scene {
 
     const buttonSize = 60;
     const buttonMargin = 20;
-    const buttonAlpha = 0.7;
     
     // Create directional pad on the left side
     const leftPadX = buttonMargin + buttonSize;

@@ -54,7 +54,6 @@ export class Platform extends Phaser.Physics.Arcade.Sprite {
       } else {
         this.setVelocityX(speed);
       }
-      console.log(`✅ Platform velocity set to: ${this.body.velocity.x} (${direction})`);
     } else {
       // If body isn't ready, set it on the next frame
       scene.time.delayedCall(1, () => {
@@ -63,7 +62,6 @@ export class Platform extends Phaser.Physics.Arcade.Sprite {
         } else {
           this.setVelocityX(speed);
         }
-        console.log(`⏰ Platform velocity set (delayed) to: ${this.body?.velocity?.x} (${direction})`);
       });
     }
   }
@@ -77,13 +75,11 @@ export class Platform extends Phaser.Physics.Arcade.Sprite {
         // Moving right - reset to left side when off right edge
         if (this.x > width + this.displayWidth) {
           this.x = -this.displayWidth;
-          console.log(`🔄 Reset right-moving platform to x=${this.x}`);
         }
       } else if (this.body.velocity.x < 0) {
         // Moving left - reset to right side when off left edge
         if (this.x < -this.displayWidth) {
           this.x = width + this.displayWidth;
-          console.log(`🔄 Reset left-moving platform to x=${this.x}`);
         }
       }
     }

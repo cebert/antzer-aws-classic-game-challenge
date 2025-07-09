@@ -11,8 +11,6 @@ export const GameConfig: Phaser.Types.Core.GameConfig = {
   width: 800,
   height: 600,
   backgroundColor: '#000000',
-  antialias: true, // Disable for crisp pixel art
-  roundPixels: true, // Enable for pixel-perfect positioning
   render: {
     pixelArt: true, // Optimize for pixel art
     antialias: false,

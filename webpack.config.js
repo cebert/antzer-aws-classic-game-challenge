@@ -8,7 +8,12 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: 'tsconfig.build.json'
+          }
+        },
         exclude: /node_modules/,
       },
     ],
@@ -17,19 +22,26 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
+      '@/config': path.resolve(__dirname, 'src/config'),
+      '@/scenes': path.resolve(__dirname, 'src/scenes'),
+      '@/objects': path.resolve(__dirname, 'src/objects'),
+      '@/utils': path.resolve(__dirname, 'src/utils'),
+      '@/assets': path.resolve(__dirname, 'src/assets'),
     },
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true, // Clean dist folder on each build
   },
   devServer: {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
     compress: true,
-    port: 8081, // Changed from 8080 to 8081 to avoid conflicts
+    port: 8081,
     hot: true,
+    open: true, // Automatically open browser
   },
   plugins: [
     new HtmlWebpackPlugin({

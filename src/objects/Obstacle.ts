@@ -10,7 +10,6 @@ export enum ObstacleType {
 
 export class Obstacle extends Phaser.Physics.Arcade.Sprite {
   private obstacleType: ObstacleType;
-  private moveSpeed: number;
 
   constructor(
     scene: Phaser.Scene,
@@ -43,7 +42,6 @@ export class Obstacle extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     
     this.obstacleType = type;
-    this.moveSpeed = speed;
     
     // Set up physics body
     this.setSize(36, 36);

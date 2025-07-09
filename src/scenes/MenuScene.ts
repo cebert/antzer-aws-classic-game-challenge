@@ -39,7 +39,7 @@ export class MenuScene extends Phaser.Scene {
       .setDisplaySize(250, 60)
       .setInteractive({ useHandCursor: true });
     
-    const startText = this.add.text(
+    this.add.text(
       startButton.x,
       startButton.y,
       'START GAME',
@@ -58,7 +58,7 @@ export class MenuScene extends Phaser.Scene {
       .setDisplaySize(250, 60)
       .setInteractive({ useHandCursor: true });
     
-    const controlsText = this.add.text(
+    this.add.text(
       controlsButton.x,
       controlsButton.y,
       'CONTROLS',

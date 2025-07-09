@@ -14,14 +14,11 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 
 ### Core Assets (Alphabetical)
 
-* `amazon-q-logo.png`
-  *Amazon Q logo for the loading screen.*
-
 * `ant-hill.png`
   *The goal the ant must reach.*
 
 * `ant-spritesheet.png`
-  *512×64 pixel sprite sheet for the ant (8 frames total).*
+  *1536×1024 pixel sprite sheet for the ant (8 frames total).*
 
 * `background-tiles.png`
   *256×256 pixel tile set for the game’s background.*
@@ -51,13 +48,10 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 
 * `frog-spritesheet.png`
   *512×64 pixel sprite sheet for frog enemies.*
-  **Note:** Frogs were not implemented due to time constraints. Future enhancement idea.
+  **Note:** Frogs are loaded but not actively used in gameplay. Future enhancement idea.
 
 * `leaf.png`
   *Floating platform used in water areas.*
-
-* `loading-background.png`
-  *Background image for the loading screen.*
 
 * `log.png`
   *Another floating platform for water sections.*
@@ -75,6 +69,10 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 
 * `poison.png`
   *Another obstacle that kills the ant.*
+
+* `spider-spritesheet.png`
+  *Sprite sheet for spider enemies.*
+  **Note:** Spiders are currently disabled due to animation/sprite sheet issues. Future enhancement.
 
 * `spray.png`
   *Additional obstacle lethal to the ant.*
@@ -128,9 +126,9 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 
 ## Spritesheets
 
-### `ant-spritesheet.png` (512×64)
+### `ant-spritesheet.png` (1536×1024)
 
-* **Frame Size**: 64×64 pixels
+* **Frame Size**: 192×1024 pixels
 * **Layout**: 8 horizontal frames (1 row)
 * **Perspective**: Top-down (ant's head faces upward)
 
@@ -149,14 +147,14 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 
 * Ant should be brown/reddish
 * Clearly visible antennae and six legs
-* No transparency—sprites must fill each 64×64 frame
+* No transparency—sprites must fill each 192×1024 frame
 * Consistent size across all frames
 
 ---
 
 ### `frog-spritesheet.png` (512×64)
 
-*Note: Not implemented in-game yet.*
+*Note: Loaded in game but not actively used in gameplay yet.*
 
 * **Frame Size**: 64×64 pixels
 * **Layout**: 8 frames (1 horizontal row)

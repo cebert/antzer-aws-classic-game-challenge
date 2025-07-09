@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { SceneKeys, ImageKeys, AudioKeys, AnimationKeys } from '../config/Constants';
+import { AnimationKeys, AudioKeys, ImageKeys, SceneKeys } from '../config/Constants';
 
 export class LoadingScene extends Phaser.Scene {
   private loadingBar!: Phaser.GameObjects.Graphics;

@@ -2,33 +2,58 @@
   "name": "antzer",
   "version": "1.0.0",
   "description": "A retro arcade game inspired by Frogger, created for the AWS Build Games Challenge 2025",
-  "main": "index.js",
+  "main": "dist/bundle.js",
+  "homepage": "https://cebert.github.io/antzer-aws-classic-game-challenge/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cebert/antzer-aws-classic-game-challenge.git"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "type-check:build": "tsc --noEmit --project tsconfig.build.json",
+    "type-check:watch": "tsc --noEmit --watch",
+    "lint:ts": "tsc --noEmit",
     "lint:md": "markdownlint *.md src/**/*.md",
-    "lint:md:fix": "markdownlint --fix *.md src/**/*.md"
+    "lint:md:fix": "markdownlint --fix *.md src/**/*.md",
+    "lint": "npm run lint:ts && npm run lint:md",
+    "prebuild": "npm run clean && npm run type-check:build",
+    "serve": "npm run build && npx http-server dist -p 8080 -o"
   },
   "keywords": [
     "game",
     "phaser",
     "typescript",
     "aws",
-    "challenge"
+    "challenge",
+    "frogger",
+    "arcade",
+    "retro"
   ],
-  "author": "Chris Ebert",
+  "author": {
+    "name": "Chris Ebert",
+    "url": "https://github.com/cebert"
+  },
   "license": "MIT",
   "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.5.3",
+    "copy-webpack-plugin": "^13.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "http-server": "^14.1.1",
     "markdownlint-cli": "^0.45.0",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.3.3",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1"
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   },
   "dependencies": {
-    "phaser": "^3.70.0"
+    "phaser": "^3.90.0"
   }
 }
