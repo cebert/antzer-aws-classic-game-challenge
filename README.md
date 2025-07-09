@@ -10,7 +10,12 @@ This game was created almost entirely using AI, using the Amazon Q Developer CLI
 The Amazon Q Developer CLI is related to, but different from, the Amazon Q Developer extension. Amazon provides instructions for installing the Amazon Q Developer CLI ([Product Page](https://aws.amazon.com/q/developer/build/) | [Installation](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-installing.html?b=cli&p=overview&s=tiles) | [Guide](https://github.com/094459/aqd-cli-workshop/blob/main/workshop/01a-setup.md)). The CLI experience is more comparable to using Claude Code than the experience I had with the Q extension about a year ago, in 2024, which I didn't like at the time. As part of this project, I learned that Q's CLI has been significantly improved. If you haven't tried Q recently, it may be worth reevaluating it and giving it a second try.
 
 Installing Q CLI is straightforward, and Amazon has instructions on how to install it on all major OS platforms. If you're on a Mac, using the [brew](https://brew.sh/) command `brew install amazon-q` as documented in the [Getting Started with Amazon Q CLI](https://github.com/094459/aqd-cli-workshop/blob/main/workshop/01a-setup.md) guide is an easy way to get started. After installing `amazon-q`, I had to open the Amazon Q app on my Mac once and allow shell access an accessability integrations.
-  
+
+## Play the Game
+
+🎮 **[Play Antzer Online](https://cebert.github.io/antzer-aws-classic-game-challenge/)**
+
+The game is deployed and ready to play! Use arrow keys to move your ant and try to reach the ant hill while avoiding obstacles and collecting treats.
 
 ## Game Concept
 
