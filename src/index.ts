@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { GameConfig } from './config/GameConfig';
+import { GameConfig } from './config/game-config';
 
 // Start the game
 window.addEventListener('load', () => {

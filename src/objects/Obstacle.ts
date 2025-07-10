@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { AnimationKeys, Direction } from "../config/Constants";
+import { AnimationKeys, Direction } from "../config/constants";
 
 /**
  * Enum defining the different types of obstacles in the game

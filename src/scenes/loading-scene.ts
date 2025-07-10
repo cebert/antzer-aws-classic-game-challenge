@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { AnimationKeys, AudioKeys, ImageKeys, SceneKeys } from "../config/Constants";
+import { AnimationKeys, AudioKeys, ImageKeys, SceneKeys } from "../config/constants";
 
 /**
  * @fileoverview Loading scene for the Antzer game

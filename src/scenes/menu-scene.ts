@@ -5,8 +5,8 @@
  */
 
 import Phaser from "phaser";
-import { AudioKeys, ImageKeys, SceneKeys } from "../config/Constants";
-import { AudioManager } from "../utils/AudioManager";
+import { AudioKeys, ImageKeys, SceneKeys } from "../config/constants";
+import { AudioManager } from "../utils/audio-manager";
 
 /**
  * MenuScene class - the main menu interface for the game

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import { AnimationKeys, AudioKeys, ImageKeys, GRID_SIZE } from '../config/Constants';
-import { AudioManager } from '../utils/AudioManager';
+import { AnimationKeys, AudioKeys, ImageKeys, GRID_SIZE } from '../config/constants';
+import { AudioManager } from '../utils/audio-manager';
 
 /**
  * Player class representing the ant character that the user controls

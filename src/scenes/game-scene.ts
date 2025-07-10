@@ -1,11 +1,11 @@
 import Phaser from 'phaser';
-import { AudioKeys, Direction, GRID_SIZE, ImageKeys, SceneKeys } from '../config/Constants';
-import { LEVEL_1, LEVEL_1_CONFIG, validateLevel } from '../config/Level1';
-import { Collectible, CollectibleType } from '../objects/Collectible';
-import { Obstacle, ObstacleType } from '../objects/Obstacle';
-import { Platform, PlatformType } from '../objects/Platform';
-import { Player } from '../objects/Player';
-import { AudioManager } from '../utils/AudioManager';
+import { AudioKeys, Direction, GRID_SIZE, ImageKeys, SceneKeys } from '../config/constants';
+import { LEVEL_1, LEVEL_1_CONFIG, validateLevel } from '../config/level1';
+import { Collectible, CollectibleType } from '../objects/collectible';
+import { Obstacle, ObstacleType } from '../objects/obstacle';
+import { Platform, PlatformType } from '../objects/platform';
+import { Player } from '../objects/player';
+import { AudioManager } from '../utils/audio-manager';
 
 // Grid cell types
 enum CellType {

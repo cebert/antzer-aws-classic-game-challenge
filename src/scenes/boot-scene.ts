@@ -5,7 +5,7 @@
  */
 
 import Phaser from 'phaser';
-import { SceneKeys } from '../config/Constants';
+import { SceneKeys } from '../config/constants';
 
 /**
  * BootScene class - the first scene in the game lifecycle

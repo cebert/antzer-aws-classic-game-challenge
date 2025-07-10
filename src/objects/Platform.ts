@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Direction, GRID_SIZE } from '../config/Constants';
+import { Direction, GRID_SIZE } from '../config/constants';
 
 /**
  * Enum defining the different types of platforms in the game

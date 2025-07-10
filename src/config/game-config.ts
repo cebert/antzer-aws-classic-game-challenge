@@ -4,11 +4,11 @@
  */
 
 import Phaser from "phaser";
-import { BootScene } from "../scenes/BootScene";
-import { GameOverScene } from "../scenes/GameOverScene";
-import { GameScene } from "../scenes/GameScene";
-import { LoadingScene } from "../scenes/LoadingScene";
-import { MenuScene } from "../scenes/MenuScene";
+import { BootScene } from "../scenes/boot-scene";
+import { GameOverScene } from "../scenes/game-over-scene";
+import { GameScene } from "../scenes/game-scene";
+import { LoadingScene } from "../scenes/loading-scene";
+import { MenuScene } from "../scenes/menu-scene";
 
 /**
  * Main Phaser game configuration object

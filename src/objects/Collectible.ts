@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { GRID_SIZE, SPARKLE_PARTICLE_DEPTH, GOLD_COLOR } from "../config/Constants";
+import { GRID_SIZE, SPARKLE_PARTICLE_DEPTH, GOLD_COLOR } from "../config/constants";
 
 /**
  * Enum defining the different types of collectible items in the game
