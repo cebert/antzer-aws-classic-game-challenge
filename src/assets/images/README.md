@@ -18,7 +18,7 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
   *The goal the ant must reach.*
 
 * `ant-spritesheet.png`
-  *1536×1024 pixel sprite sheet for the ant (8 frames total).*
+  *1536×1024 pixel sprite sheet for the ant (8 frames total) - optimized rendering enabled.*
 
 * `background-tiles.png`
   *256×256 pixel tile set for the game’s background.*
@@ -126,11 +126,12 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 
 ## Spritesheets
 
-### `ant-spritesheet.png` (1536×1024)
+### `ant-spritesheet.png` (1536×1024) - OPTIMIZED USAGE
 
 * **Frame Size**: 192×1024 pixels
 * **Layout**: 8 horizontal frames (1 row)
 * **Perspective**: Top-down (ant's head faces upward)
+* **Optimization**: Uses linear filtering and proper scaling for high-quality rendering at 72px display size
 
 #### Frame Descriptions
 
@@ -149,6 +150,7 @@ Place all of the following files in the `/src/assets/images/` directory. Use **e
 * Clearly visible antennae and six legs
 * No transparency—sprites must fill each 192×1024 frame
 * Consistent size across all frames
+* **Optimized rendering**: Linear filtering enabled for smooth scaling from 192px to 72px display
 
 ---
 

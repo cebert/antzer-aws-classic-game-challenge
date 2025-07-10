@@ -1,50 +1,79 @@
-// Level 1 Definition
-// Each character represents one grid cell
-// 
-// Legend:
-// G = Safe grass
-// A = Ant starting position (on grass)
-// H = Ant hill (goal)
-// C = Cherry (10 points, on grass)
-// K = Cookie (20 points, on grass) 
-// R = Road (safe unless obstacle)
-// P = Poison (deadly, on road)
-// Y = Spray (deadly, on road)
-// N = Nail (deadly, on road)
-// W = Water (deadly unless platform)
-// L = Log (safe platform on water)
-// F = Leaf (safe platform on water)
+/**
+ * @fileoverview Level 1 configuration for the Antzer game
+ * Contains the level layout, character mappings, and validation functions
+ * Uses a grid-based system where each character represents one game cell
+ */
 
+/**
+ * Level 1 grid definition using character-based mapping
+ * Each character represents one grid cell in the game world
+ * 
+ * **Character Legend:**
+ * - `G` = Safe grass terrain
+ * - `A` = Ant starting position (placed on grass)
+ * - `H` = Ant hill goal (player must reach this)
+ * - `C` = Cherry collectible (10 points, on grass)
+ * - `K` = Cookie collectible (20 points, on grass)
+ * - `R` = Road terrain (safe unless obstacle present)
+ * - `P` = Poison obstacle (deadly, appears on road)
+ * - `Y` = Spray obstacle (deadly, appears on road)
+ * - `N` = Nail obstacle (deadly, appears on road)
+ * - `W` = Water terrain (deadly unless player is on platform)
+ * - `L` = Log platform (safe to ride on water) - *Note: Currently unused, platforms spawn dynamically*
+ * - `F` = Leaf platform (safe to ride on water) - *Note: Currently unused, platforms spawn dynamically*
+ * 
+ * **Level Layout:**
+ * - Rows 0-1: Goal area with ant hill and collectibles
+ * - Rows 2-4: Water sections with dynamically spawning platforms
+ * - Row 5: Safe middle zone
+ * - Rows 6-8: Road sections with moving obstacles
+ * - Rows 9-11: Starting area with collectibles
+ */
 export const LEVEL_1 = [
-  // Row 0 (top - goal area)
+  // Row 0 (top - goal area with ant hill and cookie)
   'GGGGGGHGGGKGGGGG',
-  // Row 1 (safe grass)
+  // Row 1 (safe grass with cherry)
   'GGGGGGGGCGGGGGGG',
-  // Row 2 (water with logs - moving right)
+  // Row 2 (water - logs spawn dynamically moving right)
   'WWWWWWWWWWWWWWWW',
-  // Row 3 (water with leaves - moving left)
+  // Row 3 (water - leaves spawn dynamically moving left)
   'WWWWWWWWWWWWWWWW',
-  // Row 4 (water with logs - moving right)
+  // Row 4 (water - logs spawn dynamically moving right)
   'WWWWWWWWWWWWWWWW',
   // Row 5 (safe middle zone)
   'GGGGGGGGGGGGGGGG',
-  // Row 6 (road with obstacles - moving right)
+  // Row 6 (road with poison obstacles - moving right)
   'RPRRRRPRRRRRPRR',
-  // Row 7 (road with obstacles - moving left)  
+  // Row 7 (road with spray obstacles - moving left)  
   'RRYRRRYRRRYRRYR',
-  // Row 8 (road with obstacles - moving right)
+  // Row 8 (road with nail obstacles - moving right)
   'RNRRRRRRNRRRRRN',
-  // Row 9 (safe grass)
+  // Row 9 (safe grass with cherry)
   'GGGGGGGGGCGGGGGG',
-  // Row 10 (starting area)
+  // Row 10 (starting area with ant, cherry, and cookie)
   'GGGCGGAGGGGGGGKG',
-  // Row 11 (starting area)
+  // Row 11 (starting area - safe grass)
   'GGGGGGGGGGGGGGGG'
 ];
 
-// Function to find positions of special characters in the level
-export function findLevelPositions() {
-  const positions = {
+/**
+ * Position information for special level elements
+ */
+interface LevelPositions {
+  /** Ant starting position */
+  antStart: { row: number; col: number };
+  /** Ant hill goal position */
+  antHill: { row: number; col: number };
+}
+
+/**
+ * Find positions of special characters in the level grid
+ * Scans the entire level to locate the ant starting position and ant hill
+ * 
+ * @returns Object containing the row and column positions of special elements
+ */
+export function findLevelPositions(): LevelPositions {
+  const positions: LevelPositions = {
     antStart: { row: -1, col: -1 },
     antHill: { row: -1, col: -1 }
   };
@@ -63,19 +92,37 @@ export function findLevelPositions() {
   return positions;
 }
 
-// Level metadata - positions are automatically found from level definition
+/**
+ * Level configuration object containing computed positions and dimensions
+ * Automatically calculated from the level grid definition
+ */
 const levelPositions = findLevelPositions();
 
+/**
+ * Complete level 1 configuration with all necessary game data
+ * Contains positions, dimensions, and metadata for level initialization
+ */
 export const LEVEL_1_CONFIG = {
+  /** Row index of ant starting position (0-based from top) */
   antStartRow: levelPositions.antStart.row,
+  /** Column index of ant starting position (0-based from left) */
   antStartCol: levelPositions.antStart.col,
+  /** Row index of ant hill goal position (0-based from top) */
   antHillRow: levelPositions.antHill.row,
+  /** Column index of ant hill goal position (0-based from left) */
   antHillCol: levelPositions.antHill.col,
+  /** Level width in grid cells */
   width: LEVEL_1[0]?.length || 16,
+  /** Level height in grid cells */
   height: LEVEL_1.length
 };
 
-// Validation function to ensure level is correctly formed
+/**
+ * Validate the level configuration for consistency and required elements
+ * Checks for missing required elements and dimension consistency
+ * 
+ * @returns Array of error messages, empty if validation passes
+ */
 export function validateLevel(): string[] {
   const errors: string[] = [];
   

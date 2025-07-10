@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { AudioKeys, GRID_SIZE, ImageKeys, SceneKeys } from '../config/Constants';
+import { AudioKeys, Direction, GRID_SIZE, ImageKeys, SceneKeys } from '../config/Constants';
 import { LEVEL_1, LEVEL_1_CONFIG, validateLevel } from '../config/Level1';
 import { Collectible, CollectibleType } from '../objects/Collectible';
 import { Obstacle, ObstacleType } from '../objects/Obstacle';
@@ -289,28 +289,28 @@ export class GameScene extends Phaser.Scene {
         this.collectibles.add(cookie);
         break;
       case GridObjectType.LOG:
-        const log = new Platform(this, x, y, PlatformType.LOG, 25, 'right');
+        const log = new Platform(this, x, y, PlatformType.LOG, 25, Direction.RIGHT);
         this.platforms.add(log);
         break;
       case GridObjectType.LEAF:
-        const leaf = new Platform(this, x, y, PlatformType.LEAF, 35, 'left');
+        const leaf = new Platform(this, x, y, PlatformType.LEAF, 35, Direction.LEFT);
         this.platforms.add(leaf);
         break;
       case GridObjectType.POISON:
         const poisonSpeed = 60;
-        const poisonDirection = row % 2 === 0 ? 'right' : 'left'; // Row 6 = right
+        const poisonDirection = row % 2 === 0 ? Direction.RIGHT : Direction.LEFT; // Row 6 = right
         const poison = new Obstacle(this, x, y, ObstacleType.POISON, poisonSpeed, poisonDirection);
         this.obstacles.add(poison);
         break;
       case GridObjectType.NAIL:
         const nailSpeed = 40;
-        const nailDirection = row % 2 === 0 ? 'right' : 'left'; // Row 8 = right
+        const nailDirection = row % 2 === 0 ? Direction.RIGHT : Direction.LEFT; // Row 8 = right
         const nail = new Obstacle(this, x, y, ObstacleType.NAIL, nailSpeed, nailDirection);
         this.obstacles.add(nail);
         break;
       case GridObjectType.SPRAY:
         const spraySpeed = 80;
-        const sprayDirection = row % 2 === 0 ? 'right' : 'left'; // Row 7 = left
+        const sprayDirection = row % 2 === 0 ? Direction.RIGHT : Direction.LEFT; // Row 7 = left
         const spray = new Obstacle(this, x, y, ObstacleType.SPRAY, spraySpeed, sprayDirection);
         this.obstacles.add(spray);
         break;
@@ -348,7 +348,7 @@ export class GameScene extends Phaser.Scene {
       
       // Alternate platform types: LOG, LEAF, LOG, LEAF, LOG, LEAF
       const platformType = i % 2 === 0 ? PlatformType.LOG : PlatformType.LEAF;
-      const direction = i % 2 === 0 ? 'right' : 'left'; // Logs go right, leaves go left
+      const direction = i % 2 === 0 ? Direction.RIGHT : Direction.LEFT; // Logs go right, leaves go left
       
       // Fixed speeds for each water row for consistent timing
       const speeds = [25, 35, 30]; // Different speed per row (3 water rows)
@@ -363,7 +363,7 @@ export class GameScene extends Phaser.Scene {
       for (let j = 0; j < platformCount; j++) {
         let platformX;
         
-        if (direction === 'right') {
+        if (direction === Direction.RIGHT) {
           // For right-moving platforms, spread them from left side
           platformX = -200 + (j * platformSpacing);
         } else {
@@ -384,7 +384,7 @@ export class GameScene extends Phaser.Scene {
         
         // Backup velocity setting to ensure platforms move
         this.time.delayedCall(10, () => {
-          if (direction === 'left') {
+          if (direction === Direction.LEFT) {
             platform.setVelocityX(-speed);
           } else {
             platform.setVelocityX(speed);

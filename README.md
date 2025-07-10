@@ -1,4 +1,3 @@
-
 # Antzer
 
 Antzer is retro arcade game inspired by Frogger, created for the [AWS Build Games Challenge July 2025](https://community.aws/content/2y6egGcPAGQs8EwtQUM9KAONojz/build-games-challenge-build-classics-with-amazon-q-developer-cli?lang=en). In this game, you control an ant trying to reach an ant hill while avoiding obstacles and collecting treats for points. This gameplay idea was suggested by my eight-year-old son, Ryan. Ryan thought this would be a fun and interesting submission for the challenge, and I couldn't agree more.
@@ -67,10 +66,11 @@ GGGGGGGGGGGGGGGG ← Row 11: Safe area
 
 ### Visual Style
 
--  **Perspective**: Direct top-down view where players look straight down at the game world
--  **Characters**: All characters and objects are viewed from above
+-  **Perspective**: Direct top-down view where players look straight down at the game world, as if looking at a flat surface from above
+-  **Characters**: All characters and objects are viewed from above - the ant is brown/reddish with visible antennae and six legs
 -  **Movement**: The ant moves from the bottom of the screen toward the ant hill at the top
-  
+-  **Art Assets**: All game images were generated using ChatGPT to create consistent visual elements including sprite sheets, backgrounds, and UI components
+
 ## Features
 
 -  **Grid-Based Architecture**: Clean, extensible collision system that supports future level designs
@@ -150,8 +150,9 @@ The game is fully playable with all core mechanics implemented:
 ## Credits
 - [Frogger](https://en.wikipedia.org/wiki/Frogger), which is one of the best classic arcade games ever created
 - Created for the [AWS Build Games Challenge](https://community.aws/content/2y6egGcPAGQs8EwtQUM9KAONojz/build-games-challenge-build-classics-with-amazon-q-developer-cli?lang=en)
-- Ryan Ebert for game suggestion
+- Ryan Ebert for game suggestion and gameplay ideas
 - Developed with assistance from Amazon Q Developer CLI  
+- All visual assets (sprites, backgrounds, UI elements) generated using ChatGPT because as of 7/2025 Q CLI does not support this
 - Powered by [Phaser 3](https://phaser.io/) and [TypeScript](https://www.typescriptlang.org/)
 
 ## License

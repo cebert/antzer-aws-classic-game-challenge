@@ -15,7 +15,6 @@ export class AudioManager {
     try {
       // Check if sound exists in cache
       if (!this.scene.cache.audio.exists(key)) {
-        console.warn(`Audio key "${key}" not found in cache`);
         return this.createDummySound();
       }
       
@@ -24,7 +23,6 @@ export class AudioManager {
       this.soundCache.set(key, sound);
       return sound;
     } catch (error) {
-      console.warn(`Failed to add sound "${key}":`, error);
       return this.createDummySound();
     }
   }
@@ -49,7 +47,6 @@ export class AudioManager {
       
       return sound;
     } catch (error) {
-      console.warn(`Failed to play sound "${key}":`, error);
       return this.createDummySound();
     }
   }
@@ -64,7 +61,7 @@ export class AudioManager {
         sound.stop();
       }
     } catch (error) {
-      console.warn(`Failed to stop sound "${key}":`, error);
+      // Failed to stop sound - continue silently
     }
   }
 
