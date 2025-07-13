@@ -58,7 +58,7 @@ export class GameScene extends Phaser.Scene {
     const levelErrors = validateLevel();
     if (levelErrors.length > 0) {
       console.error('❌ Level validation errors:', levelErrors);
-      levelErrors.forEach(error => console.error(`  - ${error}`));
+      levelErrors.forEach((error: string) => console.error(`  - ${error}`));
     }
     
     // Initialize systems
@@ -125,7 +125,6 @@ export class GameScene extends Phaser.Scene {
 
   private setupCamera(): void {
     const gameWidth = Number(this.sys.game.config.width);
-    const gameHeight = Number(this.sys.game.config.height);
     const levelHeight = this.gridSystem.getGridHeight() * GRID_SIZE;
     
     // Don't set physics world bounds since we use grid-based movement
