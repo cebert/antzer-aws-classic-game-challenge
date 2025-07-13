@@ -9,8 +9,8 @@ import { AudioManager } from '../utils/audio-manager';
 export class Player extends Phaser.Physics.Arcade.Sprite {
   private readonly audioManager: AudioManager;
   private readonly cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private readonly gridHeight: number = 12;
-  private readonly gridWidth: number = 16;
+  private readonly gridHeight: number;
+  private readonly gridWidth: number;
   private readonly jumpSound: Phaser.Sound.BaseSound;
 
   private gridCol: number = 0;
@@ -19,6 +19,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, ImageKeys.ANT);
+    
+    // Get dynamic grid dimensions from the scene's grid system
+    const gridSystem = (scene as any).gridSystem;
+    this.gridHeight = gridSystem ? gridSystem.getGridHeight() : 48; // fallback to 48
+    this.gridWidth = gridSystem ? gridSystem.getGridWidth() : 16;   // fallback to 16
     
     this.audioManager = new AudioManager(scene);
     this.cursors = scene.input.keyboard?.createCursorKeys() || {} as Phaser.Types.Input.Keyboard.CursorKeys;

@@ -50,10 +50,90 @@ export const LEVEL_1 = [
   'RNRRRRRRNRRRRRNR',
   // Row 9 (safe grass with cherries)
   'GGGCGGGGGGCGGGGG',
-  // Row 10 (starting area with ant, cherry, and cookie)
-  'GGGCGGAGGGGGGGKG',
-  // Row 11 (starting area - safe grass with collectibles)
-  'GCGGGGGGGGGGGGCG'
+  // Row 10 (safe grass with collectibles)
+  'GGGCGGGGGGCGGGKG',
+  // Row 11 (safe grass)
+  'GCGGGGGGGGGGGGCG',
+  
+  // SECTION 2 - Repeat pattern with variations
+  // Row 12 (water - logs spawn dynamically moving right)
+  'WWWWWWWWWWWWWWWW',
+  // Row 13 (water - leaves spawn dynamically moving left)
+  'WWWWWWWWWWWWWWWW',
+  // Row 14 (water - logs spawn dynamically moving right)
+  'WWWWWWWWWWWWWWWW',
+  // Row 15 (safe middle zone with strategic collectibles)
+  'GCGGGGGGGGGGGGCG',
+  // Row 16 (road with poison obstacles - moving right)
+  'RPRRRRPRRRRRPRRR',
+  // Row 17 (road with spray obstacles - moving left)  
+  'RRYRRRYRRRYRRYRR',
+  // Row 18 (road with nail obstacles - moving right)
+  'RNRRRRRRNRRRRRNR',
+  // Row 19 (safe grass with cherries)
+  'GGGCGGGGGGCGGGGG',
+  // Row 20 (safe grass with collectibles)
+  'GGGCGGGGGGCGGGKG',
+  // Row 21 (safe grass)
+  'GCGGGGGGGGGGGGCG',
+  
+  // SECTION 3 - More challenging section
+  // Row 22 (water - logs spawn dynamically moving right)
+  'WWWWWWWWWWWWWWWW',
+  // Row 23 (water - leaves spawn dynamically moving left)
+  'WWWWWWWWWWWWWWWW',
+  // Row 24 (water - logs spawn dynamically moving right)
+  'WWWWWWWWWWWWWWWW',
+  // Row 25 (water - leaves spawn dynamically moving left)
+  'WWWWWWWWWWWWWWWW',
+  // Row 26 (safe middle zone with strategic collectibles)
+  'GCGGGGGGGGGGGGCG',
+  // Row 27 (road with poison obstacles - moving right)
+  'RPRRRRPRRRRRPRRR',
+  // Row 28 (road with spray obstacles - moving left)  
+  'RRYRRRYRRRYRRYRR',
+  // Row 29 (road with nail obstacles - moving right)
+  'RNRRRRRRNRRRRRNR',
+  // Row 30 (road with mixed obstacles)
+  'RPRYRNRPRYRNRPRR',
+  // Row 31 (safe grass with cherries)
+  'GGGCGGGGGGCGGGGG',
+  // Row 32 (safe grass with collectibles)
+  'GGGCGGGGGGCGGGKG',
+  // Row 33 (safe grass)
+  'GCGGGGGGGGGGGGCG',
+  
+  // SECTION 4 - Final challenging section before goal
+  // Row 34 (water - logs spawn dynamically moving right)
+  'WWWWWWWWWWWWWWWW',
+  // Row 35 (water - leaves spawn dynamically moving left)
+  'WWWWWWWWWWWWWWWW',
+  // Row 36 (water - logs spawn dynamically moving right)
+  'WWWWWWWWWWWWWWWW',
+  // Row 37 (safe middle zone with strategic collectibles)
+  'GCGGGGGGGGGGGGCG',
+  // Row 38 (road with poison obstacles - moving right)
+  'RPRRRRPRRRRRPRRR',
+  // Row 39 (road with spray obstacles - moving left)  
+  'RRYRRRYRRRYRRYRR',
+  // Row 40 (road with nail obstacles - moving right)
+  'RNRRRRRRNRRRRRNR',
+  // Row 41 (safe grass with cherries)
+  'GGGCGGGGGGCGGGGG',
+  // Row 42 (safe grass with collectibles)
+  'GGGCGGGGGGCGGGKG',
+  // Row 43 (safe grass)
+  'GCGGGGGGGGGGGGCG',
+  
+  // STARTING AREA - Bottom of level (rows 44-47)
+  // Row 44 (safe grass with cherries)
+  'GGGCGGGGGGCGGGGG',
+  // Row 45 (safe grass with collectibles)
+  'GGGCGGGGGGCGGGKG',
+  // Row 46 (starting area - safe grass with collectibles)
+  'GCGGGGGGGGGGGGCG',
+  // Row 47 (bottom - ant starting position)
+  'GGGCGGAGGGGGGGKG'
 ];
 
 /**

@@ -24,18 +24,6 @@ const INSTRUCTIONS_PADDING = { x: 15, y: 10 };
 const INSTRUCTIONS_DISPLAY_TIME = 2000;
 const INSTRUCTIONS_DEPTH = 2000;
 
-const MOBILE_BUTTON_SIZE = 60;
-const MOBILE_BUTTON_MARGIN = 20;
-const MOBILE_BUTTON_SPACING = 10;
-const MOBILE_BUTTON_COLOR = 0xFFFFFF; // White background for contrast
-const MOBILE_BUTTON_ALPHA = 0.9; // Higher alpha for better visibility
-const MOBILE_BUTTON_STROKE_COLOR = 0x888888; // Gray border
-const MOBILE_BUTTON_STROKE_WIDTH = 3; // Thicker border
-const MOBILE_BUTTON_ACTIVE_COLOR = 0xCCCCCC; // Light gray when pressed
-const MOBILE_BUTTON_ACTIVE_ALPHA = 1.0; // Full opacity when pressed
-const MOBILE_BUTTON_FONT_SIZE = '28px'; // Larger font for better visibility
-const MOBILE_BUTTON_TEXT_COLOR = '#000000'; // Black text on white background
-
 const MOBILE_DETECTION_WIDTH_THRESHOLD = 800;
 
 /**
@@ -152,7 +140,7 @@ export class GameUI {
    * Mobile controls are now handled internally via HTML elements
    * This method is kept for compatibility but does nothing
    */
-  public setMobileControlCallbacks(callbacks: {
+  public setMobileControlCallbacks(_callbacks: {
     up: () => void;
     down: () => void;
     left: () => void;

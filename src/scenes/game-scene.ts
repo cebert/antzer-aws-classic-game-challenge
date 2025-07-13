@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { AudioKeys, SceneKeys } from "../config/constants";
+import { AudioKeys, SceneKeys, GRID_SIZE } from "../config/constants";
 import { LEVEL_1_CONFIG, validateLevel } from "../config/level1";
 import { CollisionManager } from "../game/collision-manager";
 import { GameUI } from "../game/game-ui";
@@ -118,6 +118,31 @@ export class GameScene extends Phaser.Scene {
       left: () => this.player.moveLeft(),
       right: () => this.player.moveRight()
     });
+    
+    // Set up camera to follow the player
+    this.setupCamera();
+  }
+
+  private setupCamera(): void {
+    const gameWidth = Number(this.sys.game.config.width);
+    const gameHeight = Number(this.sys.game.config.height);
+    const levelHeight = this.gridSystem.getGridHeight() * GRID_SIZE;
+    
+    // Don't set physics world bounds since we use grid-based movement
+    // The player movement is controlled by grid constraints, not physics bounds
+    
+    // Set camera bounds to allow full level scrolling
+    // Make sure the camera can scroll to show the entire level
+    this.cameras.main.setBounds(0, 0, gameWidth, levelHeight);
+    
+    // Make camera follow the player with smooth scrolling in both directions
+    this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
+    
+    // Use a larger deadzone to prevent jittery movement
+    this.cameras.main.setDeadzone(100, 100);
+    
+    // Initially position camera at player's starting position
+    this.cameras.main.centerOn(this.player.x, this.player.y);
   }
 
   private setupAudio(): void {
