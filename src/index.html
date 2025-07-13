@@ -25,61 +25,11 @@
             display: block;
             margin: 0 auto;
         }
-        /* Mobile controls */
-        #mobile-controls {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: none;
-            width: 180px;
-            height: 180px;
-        }
-        .control-button {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        #up-button {
-            top: 0;
-            left: 60px;
-        }
-        #left-button {
-            top: 60px;
-            left: 0;
-        }
-        #right-button {
-            top: 60px;
-            left: 120px;
-        }
-        #down-button {
-            top: 120px;
-            left: 60px;
-        }
-        @media (max-width: 768px) {
-            #mobile-controls {
-                display: block;
-            }
-        }
     </style>
 </head>
 <body>
     <div id="game-container">
         <div id="game"></div>
-    </div>
-    <div id="mobile-controls">
-        <div id="up-button" class="control-button">↑</div>
-        <div id="left-button" class="control-button">←</div>
-        <div id="right-button" class="control-button">→</div>
-        <div id="down-button" class="control-button">↓</div>
     </div>
 </body>
 </html>

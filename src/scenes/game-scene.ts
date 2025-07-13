@@ -108,7 +108,10 @@ export class GameScene extends Phaser.Scene {
     
     this.player = new Player(this, startPosition.x, startPosition.y);
     
-    // Set up mobile control callbacks
+    // Store player reference in registry for mobile controls
+    this.registry.set('player', this.player);
+    
+    // Set up mobile control callbacks (kept for compatibility)
     this.gameUI.setMobileControlCallbacks({
       up: () => this.player.moveUp(),
       down: () => this.player.moveDown(),

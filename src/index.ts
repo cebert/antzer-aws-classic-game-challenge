@@ -41,43 +41,4 @@ window.addEventListener('load', () => {
 
   window.addEventListener('resize', resize);
   resize();
-
-  // Setup mobile controls
-  const setupMobileControls = () => {
-    const upButton = document.getElementById('up-button');
-    const leftButton = document.getElementById('left-button');
-    const rightButton = document.getElementById('right-button');
-    const downButton = document.getElementById('down-button');
-    
-    // Helper function to dispatch keyboard events
-    const dispatchKeyEvent = (key: string, type: string) => {
-      window.dispatchEvent(new KeyboardEvent(type, { key }));
-    };
-    
-    // Up button
-    if (upButton) {
-      upButton.addEventListener('touchstart', () => dispatchKeyEvent('ArrowUp', 'keydown'));
-      upButton.addEventListener('touchend', () => dispatchKeyEvent('ArrowUp', 'keyup'));
-    }
-    
-    // Left button
-    if (leftButton) {
-      leftButton.addEventListener('touchstart', () => dispatchKeyEvent('ArrowLeft', 'keydown'));
-      leftButton.addEventListener('touchend', () => dispatchKeyEvent('ArrowLeft', 'keyup'));
-    }
-    
-    // Right button
-    if (rightButton) {
-      rightButton.addEventListener('touchstart', () => dispatchKeyEvent('ArrowRight', 'keydown'));
-      rightButton.addEventListener('touchend', () => dispatchKeyEvent('ArrowRight', 'keyup'));
-    }
-    
-    // Down button
-    if (downButton) {
-      downButton.addEventListener('touchstart', () => dispatchKeyEvent('ArrowDown', 'keydown'));
-      downButton.addEventListener('touchend', () => dispatchKeyEvent('ArrowDown', 'keyup'));
-    }
-  };
-  
-  setupMobileControls();
 });

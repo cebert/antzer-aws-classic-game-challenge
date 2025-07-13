@@ -27,13 +27,14 @@ const INSTRUCTIONS_DEPTH = 2000;
 const MOBILE_BUTTON_SIZE = 60;
 const MOBILE_BUTTON_MARGIN = 20;
 const MOBILE_BUTTON_SPACING = 10;
-const MOBILE_BUTTON_COLOR = 0x333333;
-const MOBILE_BUTTON_ALPHA = 0.7;
-const MOBILE_BUTTON_STROKE_COLOR = 0x666666;
-const MOBILE_BUTTON_STROKE_WIDTH = 2;
-const MOBILE_BUTTON_ACTIVE_COLOR = 0x555555;
-const MOBILE_BUTTON_ACTIVE_ALPHA = 0.8;
-const MOBILE_BUTTON_FONT_SIZE = '24px';
+const MOBILE_BUTTON_COLOR = 0xFFFFFF; // White background for contrast
+const MOBILE_BUTTON_ALPHA = 0.9; // Higher alpha for better visibility
+const MOBILE_BUTTON_STROKE_COLOR = 0x888888; // Gray border
+const MOBILE_BUTTON_STROKE_WIDTH = 3; // Thicker border
+const MOBILE_BUTTON_ACTIVE_COLOR = 0xCCCCCC; // Light gray when pressed
+const MOBILE_BUTTON_ACTIVE_ALPHA = 1.0; // Full opacity when pressed
+const MOBILE_BUTTON_FONT_SIZE = '28px'; // Larger font for better visibility
+const MOBILE_BUTTON_TEXT_COLOR = '#000000'; // Black text on white background
 
 const MOBILE_DETECTION_WIDTH_THRESHOLD = 800;
 
@@ -64,13 +65,8 @@ export class GameUI {
   /** Current game score */
   private score: number = 0;
 
-  /** Mobile control button containers */
-  private mobileControls: {
-    upButton?: Phaser.GameObjects.Container;
-    downButton?: Phaser.GameObjects.Container;
-    leftButton?: Phaser.GameObjects.Container;
-    rightButton?: Phaser.GameObjects.Container;
-  } = {};
+  /** HTML mobile control container */
+  private mobileControlsContainer?: HTMLElement;
 
   /**
    * Creates a new GameUI instance
@@ -153,8 +149,8 @@ export class GameUI {
   }
 
   /**
-   * Sets callback functions for mobile control buttons
-   * @param callbacks - Object containing callback functions for each direction
+   * Mobile controls are now handled internally via HTML elements
+   * This method is kept for compatibility but does nothing
    */
   public setMobileControlCallbacks(callbacks: {
     up: () => void;
@@ -162,18 +158,8 @@ export class GameUI {
     left: () => void;
     right: () => void;
   }): void {
-    if (this.mobileControls.upButton) {
-      this.setButtonCallback(this.mobileControls.upButton, callbacks.up);
-    }
-    if (this.mobileControls.downButton) {
-      this.setButtonCallback(this.mobileControls.downButton, callbacks.down);
-    }
-    if (this.mobileControls.leftButton) {
-      this.setButtonCallback(this.mobileControls.leftButton, callbacks.left);
-    }
-    if (this.mobileControls.rightButton) {
-      this.setButtonCallback(this.mobileControls.rightButton, callbacks.right);
-    }
+    // HTML mobile controls handle callbacks internally
+    // This method is kept for compatibility with existing code
   }
 
   /**
@@ -271,33 +257,109 @@ export class GameUI {
    * @private
    */
   private createMobileControls(): void {
-    // Check if we're on a mobile device or small screen
-    const isMobile = this.scene.sys.game.device.os.android || 
-                     this.scene.sys.game.device.os.iOS || 
-                     this.scene.sys.game.device.os.windowsPhone || 
-                     this.scene.cameras.main.width < MOBILE_DETECTION_WIDTH_THRESHOLD;
+    // Detect mobile devices and touch capability
+    const isMobile = this.detectMobileDevice();
     
     if (!isMobile) return;
 
-    const leftPadX = MOBILE_BUTTON_MARGIN + MOBILE_BUTTON_SIZE;
-    const leftPadY = this.scene.cameras.main.height - MOBILE_BUTTON_MARGIN - MOBILE_BUTTON_SIZE;
+    // Create HTML-based mobile controls in the letterbox area
+    this.createHTMLMobileControls();
+  }
 
-    // Create control buttons (callbacks will be set externally)
-    this.mobileControls.upButton = this.createControlButton(
-      leftPadX, leftPadY - MOBILE_BUTTON_SIZE - MOBILE_BUTTON_SPACING, '↑'
-    );
+  /**
+   * Creates HTML-based mobile controls positioned in the letterbox area
+   */
+  private createHTMLMobileControls(): void {
+    // Create container for mobile controls
+    const controlsContainer = document.createElement('div');
+    controlsContainer.id = 'mobile-controls-container';
+    controlsContainer.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      z-index: 1000;
+      pointer-events: none;
+    `;
 
-    this.mobileControls.downButton = this.createControlButton(
-      leftPadX, leftPadY + MOBILE_BUTTON_SIZE + MOBILE_BUTTON_SPACING, '↓'
-    );
+    // Create individual control buttons
+    const buttons = [
+      { id: 'up', symbol: '↑', x: 70, y: 0, callback: () => this.scene.registry.get('player')?.moveUp() },
+      { id: 'down', symbol: '↓', x: 70, y: 140, callback: () => this.scene.registry.get('player')?.moveDown() },
+      { id: 'left', symbol: '←', x: 0, y: 70, callback: () => this.scene.registry.get('player')?.moveLeft() },
+      { id: 'right', symbol: '→', x: 140, y: 70, callback: () => this.scene.registry.get('player')?.moveRight() }
+    ];
 
-    this.mobileControls.leftButton = this.createControlButton(
-      leftPadX - MOBILE_BUTTON_SIZE - MOBILE_BUTTON_SPACING, leftPadY, '←'
-    );
+    buttons.forEach(button => {
+      const buttonElement = document.createElement('div');
+      buttonElement.id = `mobile-${button.id}-button`;
+      buttonElement.textContent = button.symbol;
+      buttonElement.style.cssText = `
+        position: absolute;
+        left: ${button.x}px;
+        top: ${button.y}px;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 3px solid #888888;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #000000;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        pointer-events: auto;
+        cursor: pointer;
+        text-shadow: 1px 1px 2px rgba(136, 136, 136, 0.5);
+        transition: all 0.1s ease;
+      `;
 
-    this.mobileControls.rightButton = this.createControlButton(
-      leftPadX + MOBILE_BUTTON_SIZE + MOBILE_BUTTON_SPACING, leftPadY, '→'
-    );
+      // Add touch event handlers
+      const handlePress = () => {
+        buttonElement.style.backgroundColor = 'rgba(204, 204, 204, 1.0)';
+        buttonElement.style.transform = 'scale(0.95)';
+        button.callback();
+      };
+
+      const handleRelease = () => {
+        buttonElement.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        buttonElement.style.transform = 'scale(1.0)';
+      };
+
+      buttonElement.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        handlePress();
+      });
+
+      buttonElement.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        handleRelease();
+      });
+
+      buttonElement.addEventListener('touchcancel', (e) => {
+        e.preventDefault();
+        handleRelease();
+      });
+
+      // Also support mouse events for testing
+      buttonElement.addEventListener('mousedown', handlePress);
+      buttonElement.addEventListener('mouseup', handleRelease);
+      buttonElement.addEventListener('mouseleave', handleRelease);
+
+      controlsContainer.appendChild(buttonElement);
+    });
+
+    // Add to page
+    document.body.appendChild(controlsContainer);
+
+    // Store reference for cleanup
+    this.mobileControlsContainer = controlsContainer;
   }
 
   /**
@@ -305,49 +367,39 @@ export class GameUI {
    * @param x - X position for the button
    * @param y - Y position for the button
    * @param symbol - Symbol to display on the button
-   * @returns The created button container
-   * @private
+  /**
+   * Detects if the device is mobile or has touch capability
    */
-  private createControlButton(x: number, y: number, symbol: string): Phaser.GameObjects.Container {
-    const container = this.scene.add.container(x, y);
-
-    // Create button background
-    const background = this.scene.add.circle(0, 0, MOBILE_BUTTON_SIZE / 2, MOBILE_BUTTON_COLOR, MOBILE_BUTTON_ALPHA);
-    background.setStrokeStyle(MOBILE_BUTTON_STROKE_WIDTH, MOBILE_BUTTON_STROKE_COLOR);
+  private detectMobileDevice(): boolean {
+    // Testing override: add ?mobile=true to URL to force mobile controls on desktop
+    if (window.location.search.includes('mobile=true')) return true;
     
-    // Create button text
-    const text = this.scene.add.text(0, 0, symbol, {
-      fontSize: MOBILE_BUTTON_FONT_SIZE,
-      color: UI_TEXT_COLOR,
-      align: 'center'
-    }).setOrigin(0.5);
-
-    // Add to container
-    container.add([background, text]);
-    container.setScrollFactor(0);
-
-    return container;
+    // Check for touch capability
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Check for mobile OS
+    const isMobileOS = this.scene.sys.game.device.os.android || 
+                      this.scene.sys.game.device.os.iOS || 
+                      this.scene.sys.game.device.os.windowsPhone;
+    
+    // Check for small screen size
+    const isSmallScreen = this.scene.cameras.main.width < MOBILE_DETECTION_WIDTH_THRESHOLD;
+    
+    // Check user agent for mobile indicators
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobileUserAgent = /mobile|android|iphone|ipad|phone|tablet|touch/i.test(userAgent);
+    
+    // Return true if any mobile indicator is present
+    return hasTouch || isMobileOS || isSmallScreen || isMobileUserAgent;
   }
 
   /**
-   * Sets a callback function for a mobile control button
-   * @param container - The button container
-   * @param callback - The callback function to execute on button press
-   * @private
+   * Cleanup method to remove HTML mobile controls
    */
-  private setButtonCallback(container: Phaser.GameObjects.Container, callback: () => void): void {
-    const background = container.list[0] as Phaser.GameObjects.Arc;
-    
-    background.setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        background.setFillStyle(MOBILE_BUTTON_ACTIVE_COLOR, MOBILE_BUTTON_ACTIVE_ALPHA);
-        callback();
-      })
-      .on('pointerup', () => {
-        background.setFillStyle(MOBILE_BUTTON_COLOR, MOBILE_BUTTON_ALPHA);
-      })
-      .on('pointerout', () => {
-        background.setFillStyle(MOBILE_BUTTON_COLOR, MOBILE_BUTTON_ALPHA);
-      });
+  public destroy(): void {
+    if (this.mobileControlsContainer) {
+      this.mobileControlsContainer.remove();
+      this.mobileControlsContainer = undefined;
+    }
   }
 }
