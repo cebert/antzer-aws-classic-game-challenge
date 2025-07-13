@@ -5,7 +5,7 @@ import { GameConfig } from './config/game-config';
 window.addEventListener('load', () => {
   const game = new Phaser.Game(GameConfig);
 
-  // Handle responsive resizing
+  // Smart resize handling for better wide screen support
   const resize = () => {
     const canvas = document.querySelector('canvas');
     if (!canvas) return;
@@ -13,30 +13,34 @@ window.addEventListener('load', () => {
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     const windowRatio = windowWidth / windowHeight;
-    const gameRatio = Number(game.config.width) / Number(game.config.height);
+    const gameRatio = Number(game.config.width) / Number(game.config.height); // 800/600 = 1.33
     
-    // Limit maximum size to prevent elements from being too large
-    const maxWidth = Math.min(windowWidth, 1200);
-    const maxHeight = Math.min(windowHeight, 900);
+    // Calculate optimal size while maintaining aspect ratio
+    let targetWidth, targetHeight;
     
-    if (windowRatio < gameRatio) {
-      canvas.style.width = maxWidth + 'px';
-      canvas.style.height = (maxWidth / gameRatio) + 'px';
+    if (windowRatio > gameRatio) {
+      // Window is wider than game - fit to height and center horizontally
+      targetHeight = Math.min(windowHeight * 0.95, 1200);
+      targetWidth = targetHeight * gameRatio;
     } else {
-      canvas.style.width = (maxHeight * gameRatio) + 'px';
-      canvas.style.height = maxHeight + 'px';
+      // Window is taller than game - fit to width and center vertically
+      targetWidth = Math.min(windowWidth * 0.95, 1600);
+      targetHeight = targetWidth / gameRatio;
     }
     
-    // Ensure the canvas doesn't exceed the viewport
-    if (parseInt(canvas.style.width) > windowWidth) {
-      canvas.style.width = windowWidth + 'px';
-      canvas.style.height = (windowWidth / gameRatio) + 'px';
+    // Ensure we don't exceed viewport bounds
+    if (targetWidth > windowWidth * 0.95) {
+      targetWidth = windowWidth * 0.95;
+      targetHeight = targetWidth / gameRatio;
     }
     
-    if (parseInt(canvas.style.height) > windowHeight) {
-      canvas.style.height = windowHeight + 'px';
-      canvas.style.width = (windowHeight * gameRatio) + 'px';
+    if (targetHeight > windowHeight * 0.95) {
+      targetHeight = windowHeight * 0.95;
+      targetWidth = targetHeight * gameRatio;
     }
+    
+    canvas.style.width = Math.round(targetWidth) + 'px';
+    canvas.style.height = Math.round(targetHeight) + 'px';
   };
 
   window.addEventListener('resize', resize);

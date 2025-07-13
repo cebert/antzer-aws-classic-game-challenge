@@ -101,6 +101,47 @@ export class LevelBuilder {
           .setDepth(-1);
       }
     }
+    
+    // Fill any remaining canvas area with grass tiles to prevent black bars
+    const gameWidth = Number(this.scene.sys.game.config.width);
+    const gridPixelWidth = this.gridSystem.getGridWidth() * GRID_SIZE;
+    
+    if (gameWidth > gridPixelWidth) {
+      // Add extra grass tiles to fill the remaining width
+      const extraWidth = gameWidth - gridPixelWidth;
+      const extraCols = Math.ceil(extraWidth / GRID_SIZE);
+      
+      for (let row = 0; row < this.gridSystem.getGridHeight(); row++) {
+        // Get the rightmost cell to determine background type
+        const rightmostCell = this.gridSystem.getCell(row, this.gridSystem.getGridWidth() - 1);
+        let tileIndex = TILE_INDICES.GRASS;
+        
+        if (rightmostCell) {
+          switch (rightmostCell.type) {
+            case CellType.SAFE_GRASS:
+              tileIndex = TILE_INDICES.GRASS;
+              break;
+            case CellType.WATER:
+              tileIndex = TILE_INDICES.WATER;
+              break;
+            case CellType.ROAD:
+              tileIndex = TILE_INDICES.ROAD;
+              break;
+          }
+        }
+        
+        // Add extra tiles to fill the gap
+        for (let extraCol = 0; extraCol < extraCols; extraCol++) {
+          const x = gridPixelWidth + (extraCol * GRID_SIZE) + (GRID_SIZE / 2);
+          const y = (row * GRID_SIZE) + (GRID_SIZE / 2);
+          
+          this.scene.add.image(x, y, ImageKeys.BACKGROUND_TILES, tileIndex)
+            .setOrigin(0.5, 0.5)
+            .setDisplaySize(GRID_SIZE, GRID_SIZE)
+            .setDepth(-1);
+        }
+      }
+    }
   }
 
   /**
