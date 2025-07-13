@@ -189,8 +189,8 @@ export class MenuScene extends Phaser.Scene {
   private createCredits(): void {
     this.add.text(
       this.cameras.main.width / 2,
-      this.cameras.main.height - 50,
-      'Created for the AWS Build Games Challenge\nGenerated with Amazon Q Developer (w/ minimal time investment)',
+      this.cameras.main.height - 70,
+      'Game Concept by Ryan E\nCreated for the AWS Build Games Challenge\nGenerated with Amazon Q Developer (w/ minimal time investment)',
       {
         font: '16px Arial',
         color: '#ffffff',
