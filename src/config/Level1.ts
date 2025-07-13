@@ -43,11 +43,11 @@ export const LEVEL_1 = [
   // Row 5 (safe middle zone with strategic collectibles)
   'GCGGGGGGGGGGGGCG',
   // Row 6 (road with poison obstacles - moving right)
-  'RPRRRRPRRRRRPRR',
+  'RPRRRRPRRRRRPRRR',
   // Row 7 (road with spray obstacles - moving left)  
-  'RRYRRRYRRRYRRYR',
+  'RRYRRRYRRRYRRYRR',
   // Row 8 (road with nail obstacles - moving right)
-  'RNRRRRRRNRRRRRN',
+  'RNRRRRRRNRRRRRNR',
   // Row 9 (safe grass with cherries)
   'GGGCGGGGGGCGGGGG',
   // Row 10 (starting area with ant, cherry, and cookie)
