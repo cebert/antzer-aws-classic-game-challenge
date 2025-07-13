@@ -19,14 +19,15 @@
     "declaration": false,
     "removeComments": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "rootDir": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"],
-      "@/config/*": ["config/*"],
-      "@/scenes/*": ["scenes/*"],
-      "@/objects/*": ["objects/*"],
-      "@/utils/*": ["utils/*"],
-      "@/assets/*": ["assets/*"]
+      "@/*": ["src/*"],
+      "@/config/*": ["src/config/*"],
+      "@/scenes/*": ["src/scenes/*"],
+      "@/objects/*": ["src/objects/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/assets/*": ["src/assets/*"]
     }
   },
   "include": [
