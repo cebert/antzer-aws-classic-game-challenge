@@ -4,7 +4,7 @@ Antzer is retro arcade game inspired by Frogger, created for the [AWS Build Game
 
 This game was created almost entirely using AI, using the Amazon Q Developer CLI. Antzer is a fun, non-serious experimentation project. Q was used to generate code, design elements, and even suggest gameplay mechanics. While **this project does not represent my best work** or what I would consider production code, it was a fun opportunity to gain more exposure to the Amazon Q Developer CLI. Most of my professional work is with Claude Code or GitHub Copilot. I was excited to give Q a try for this challenge. Q did a reasonable job building this game. I only needed to make a few minor code tweaks and perform some cleanup tasks to have a basic, working game. I don't see this game becoming a top hit, but it was a fun project and a great way to spend some time discussing software and AI with my son.
 
-### Amazon Q Developer CLI 
+## Amazon Q Developer CLI
 
 The Amazon Q Developer CLI is related to, but different from, the Amazon Q Developer extension. Amazon provides instructions for installing the Amazon Q Developer CLI ([Product Page](https://aws.amazon.com/q/developer/build/) | [Installation](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-installing.html?b=cli&p=overview&s=tiles) | [Guide](https://github.com/094459/aqd-cli-workshop/blob/main/workshop/01a-setup.md)). The CLI experience is more comparable to using Claude Code than the experience I had with the Q extension about a year ago, in 2024, which I didn't like at the time. As part of this project, I learned that Q's CLI has been significantly improved. If you haven't tried Q recently, it may be worth reevaluating it and giving it a second try.
 
@@ -18,11 +18,11 @@ The game is deployed and ready to play! Use arrow keys to move your ant and try 
 
 ## Game Concept
 
--  **Objective**: The primary objective of Anzter is the ant to reach the ant hill at the top of the screen while avoiding death from harmful objects such as nails, bug spary, poison, and water. If you manage to survive, you can compare your completion time with others for bragging rights. 
--  **Perspective**: Direct top-down view (bird's eye view) of a flat playing field
--  **Gameplay**: Classic Frogger-style grid-based movement and collision detection
--  **Scoring**: Collect cherries (10 points) and cookies (20 points) for bonus points
--  **Challenge**: Navigate through hazardous terrain using timing and strategy
+- **Objective**: The primary objective of Anzter is the ant to reach the ant hill at the top of the screen while avoiding death from harmful objects such as nails, bug spray, poison, and water. If you manage to survive, you can compare your completion time with others for bragging rights.
+- **Perspective**: Direct top-down view (bird's eye view) of a flat playing field
+- **Gameplay**: Classic Frogger-style grid-based movement and collision detection
+- **Scoring**: Collect cherries (10 points) and cookies (20 points) for bonus points
+- **Challenge**: Navigate through hazardous terrain using timing and strategy
 
 Players use up/down/left/right arrow keys to move their ant through the game in a style similar to Frogger.
 
@@ -46,39 +46,39 @@ GGGGGGGGGGGGGGGG ← Row 11: Safe area
 ```
 
 **Legend:**
--  `G` = Safe grass
--  `A` = Ant starting position
--  `H` = Ant hill (goal)
--  `C` = Cherry (10 points)
--  `R` = Safe road
--  `P` = Poison (deadly)
--  `Y` = Spray (deadly)
--  `N` = Nail (deadly)
--  `W` = Water (deadly unless on platform)
+- `G` = Safe grass
+- `A` = Ant starting position
+- `H` = Ant hill (goal)
+- `C` = Cherry (10 points)
+- `R` = Safe road
+- `P` = Poison (deadly)
+- `Y` = Spray (deadly)
+- `N` = Nail (deadly)
+- `W` = Water (deadly unless on platform)
 
 ### Grid-Based Gameplay
 
--  **Grid Movement**: The ant moves on a discrete grid system for precise, predictable gameplay
--  **Cell Types**: Each grid cell is either safe (grass), conditionally safe (water with platform), or dangerous (water without platform, road with obstacle)
--  **Collision Detection**: Simple and reliable - if you're on an unsafe cell, you die
--  **Moving Objects**: Platforms and obstacles update their grid positions in real-time
--  **Consistent Patterns**: All obstacle and platform positions are currently static, though future gameplay could add moving spiders and frogs that attack the ant.
+- **Grid Movement**: The ant moves on a discrete grid system for precise, predictable gameplay
+- **Cell Types**: Each grid cell is either safe (grass), conditionally safe (water with platform), or dangerous (water without platform, road with obstacle)
+- **Collision Detection**: Simple and reliable - if you're on an unsafe cell, you die
+- **Moving Objects**: Platforms and obstacles update their grid positions in real-time
+- **Consistent Patterns**: All obstacle and platform positions are currently static, though future gameplay could add moving spiders and frogs that attack the ant.
 
 ### Visual Style
 
--  **Perspective**: Direct top-down view where players look straight down at the game world, as if looking at a flat surface from above
--  **Characters**: All characters and objects are viewed from above - the ant is brown/reddish with visible antennae and six legs
--  **Movement**: The ant moves from the bottom of the screen toward the ant hill at the top
--  **Art Assets**: All game images were generated using ChatGPT to create consistent visual elements including sprite sheets, backgrounds, and UI components
+- **Perspective**: Direct top-down view where players look straight down at the game world, as if looking at a flat surface from above
+- **Characters**: All characters and objects are viewed from above - the ant is brown/reddish with visible antennae and six legs
+- **Movement**: The ant moves from the bottom of the screen toward the ant hill at the top
+- **Art Assets**: All game images were generated using ChatGPT to create consistent visual elements including sprite sheets, backgrounds, and UI components
 
 ## Features
 
--  **Grid-Based Architecture**: Clean, extensible collision system that supports future level designs
--  **Classic Frogger Mechanics**: Avoid obstacles, ride logs across water
--  **Real-time Grid Updates**: Moving platforms and obstacles seamlessly integrate with grid system
--  **Keyboard Controls**: Arrow keys for gme movement (desktop only)
--  **Sound Effects and Music**: Audio feedback for actions and atmosphere with user interaction-based audio start
--  **Score System**: Collect cherries (10 points) and cookies (20 points) for bonus points while reaching the goal with in the lowest total time.
+- **Grid-Based Architecture**: Clean, extensible collision system that supports future level designs
+- **Classic Frogger Mechanics**: Avoid obstacles, ride logs across water
+- **Real-time Grid Updates**: Moving platforms and obstacles seamlessly integrate with grid system
+- **Keyboard Controls**: Arrow keys for gme movement (desktop only)
+- **Sound Effects and Music**: Audio feedback for actions and atmosphere with user interaction-based audio start
+- **Score System**: Collect cherries (10 points) and cookies (20 points) for bonus points while reaching the goal with in the lowest total time.
 
 ## Technical Architecture
 
@@ -86,12 +86,12 @@ GGGGGGGGGGGGGGGG ← Row 11: Safe area
 
 The game uses a hybrid grid-based collision system:
 
--  **2D Grid Array**: Each cell contains type (grass/water/road) and object (none/obstacle/collectible)
--  **Static Elements**: Defined in level configuration (obstacles, collectibles, terrain)
--  **Dynamic Elements**: Logs and leaves spawn continuously using separate spawning system
--  **Real-time Updates**: Moving objects update their grid positions each frame
--  **Safety Calculation**: Each cell's safety is computed based on type + object combination
--  **Extensible Design**: Easy to add new cell types, objects, and level layouts
+- **2D Grid Array**: Each cell contains type (grass/water/road) and object (none/obstacle/collectible)
+- **Static Elements**: Defined in level configuration (obstacles, collectibles, terrain)
+- **Dynamic Elements**: Logs and leaves spawn continuously using separate spawning system
+- **Real-time Updates**: Moving objects update their grid positions each frame
+- **Safety Calculation**: Each cell's safety is computed based on type + object combination
+- **Extensible Design**: Easy to add new cell types, objects, and level layouts
 
 ## Development
 
@@ -103,6 +103,7 @@ The game uses a hybrid grid-based collision system:
 
 1. Clone the repository
 2. Install dependencies:
+
 ```bash
 npm  install
 ```
@@ -110,6 +111,7 @@ npm  install
 ### Development Server
 
 Run the development server:
+
 ```bash
 npm  start
 ```
@@ -127,7 +129,7 @@ npm  run  build
 The built files will be in the `dist` directory. This game can be hosted statically on any CDN or on GitHub Pages.
 
 ## Game Status
- 
+
 The game is fully playable with all core mechanics implemented:
 
 - ✅ Grid-based movement and collision detection

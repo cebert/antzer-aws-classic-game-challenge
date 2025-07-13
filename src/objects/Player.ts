@@ -9,20 +9,14 @@ import { AudioManager } from '../utils/audio-manager';
 export class Player extends Phaser.Physics.Arcade.Sprite {
   private readonly audioManager: AudioManager;
   private readonly cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private readonly gridHeight: number = 12; // Level height in grid cells
-  private readonly gridWidth: number = 16; // Level width in grid cells
+  private readonly gridHeight: number = 12;
+  private readonly gridWidth: number = 16;
   private readonly jumpSound: Phaser.Sound.BaseSound;
 
   private gridCol: number = 0;
   private gridRow: number = 0;
   private isDead: boolean = false;
 
-  /**
-   * Create a new Player instance
-   * @param scene - The Phaser scene this player belongs to
-   * @param x - The initial x position in world coordinates
-   * @param y - The initial y position in world coordinates
-   */
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, ImageKeys.ANT);
     

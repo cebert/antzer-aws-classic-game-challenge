@@ -6,16 +6,10 @@
 import Phaser from 'phaser';
 import { GRID_SIZE } from '../config/constants';
 import { GridSystem, GridObjectType, CellType } from './grid-system';
+import { LevelAnalyzer } from './level-analyzer';
 import { Player } from '../objects/player';
 
-// Constants for collision detection
-const ROAD_START_ROW = 6;
-const ROAD_END_ROW = 8;
-const WATER_START_ROW = 2;
-const WATER_END_ROW = 4;
 const FRAME_RATE = 60;
-
-// Point values for collectibles
 const CHERRY_POINTS = 10;
 const COOKIE_POINTS = 20;
 
@@ -23,24 +17,15 @@ const COOKIE_POINTS = 20;
  * Interface representing the result of a collision check
  */
 export interface CollisionResult {
-  /** Whether the collision resulted in player death */
   isDead: boolean;
-  /** Whether the collision resulted in a win condition */
   isWin: boolean;
-  /** Information about collected items (if any) */
   collectible?: {
-    /** Type of collectible that was collected */
     type: GridObjectType.CHERRY | GridObjectType.COOKIE;
-    /** Points awarded for the collectible */
     points: number;
-    /** Grid row where collectible was located */
     row: number;
-    /** Grid column where collectible was located */
     col: number;
   };
-  /** Platform movement information (if player is on a platform) */
   platformMovement?: {
-    /** Horizontal movement delta from platform */
     deltaX: number;
   };
 }
@@ -63,6 +48,8 @@ export class CollisionManager {
   private gridSystem: GridSystem;
   /** Reference to the platforms physics group */
   private platforms: Phaser.Physics.Arcade.Group;
+  /** Level analyzer for dynamic row type detection */
+  private levelAnalyzer: LevelAnalyzer;
 
   /**
    * Creates a new CollisionManager instance
@@ -72,6 +59,7 @@ export class CollisionManager {
   constructor(gridSystem: GridSystem, platforms: Phaser.Physics.Arcade.Group) {
     this.gridSystem = gridSystem;
     this.platforms = platforms;
+    this.levelAnalyzer = new LevelAnalyzer();
   }
 
   /**
@@ -139,14 +127,16 @@ export class CollisionManager {
    * @param obstacles - The physics group containing obstacle objects
    */
   public updateObstaclePositions(obstacles: Phaser.Physics.Arcade.Group): void {
+    const roadRows = this.levelAnalyzer.getRoadRows();
+    
     // Clear all obstacles from road rows
-    for (let row = ROAD_START_ROW; row <= ROAD_END_ROW; row++) {
-      this.gridSystem.clearObjectsInRow(row, [
+    roadRows.forEach(rowInfo => {
+      this.gridSystem.clearObjectsInRow(rowInfo.index, [
         GridObjectType.POISON,
         GridObjectType.SPRAY,
         GridObjectType.NAIL
       ]);
-    }
+    });
 
     // Re-add obstacles based on current sprite positions
     obstacles.getChildren().forEach((obstacle) => {
@@ -154,7 +144,7 @@ export class CollisionManager {
       const row = Math.floor(obstacleSprite.y / GRID_SIZE);
       const col = Math.floor(obstacleSprite.x / GRID_SIZE);
 
-      if (row >= ROAD_START_ROW && row <= ROAD_END_ROW && col >= 0 && col < this.gridSystem.getGridWidth()) {
+      if (this.levelAnalyzer.isRoadRow(row) && col >= 0 && col < this.gridSystem.getGridWidth()) {
         // Determine actual obstacle type based on texture
         let objectType = GridObjectType.POISON; // Default
 
@@ -177,18 +167,20 @@ export class CollisionManager {
    * Handles the dynamic positioning of logs and leaves in water areas.
    */
   public updatePlatformPositions(): void {
+    const waterRows = this.levelAnalyzer.getWaterRows();
+    
     // Update platform positions in grid for water rows
-    for (let row = WATER_START_ROW; row <= WATER_END_ROW; row++) {
+    waterRows.forEach(rowInfo => {
       // Clear old platform positions
-      this.gridSystem.clearObjectsInRow(row, [GridObjectType.LOG, GridObjectType.LEAF]);
+      this.gridSystem.clearObjectsInRow(rowInfo.index, [GridObjectType.LOG, GridObjectType.LEAF]);
 
       // Add platforms based on current sprite positions
       this.platforms.getChildren().forEach((platform) => {
         const platformSprite = platform as Phaser.Physics.Arcade.Sprite;
         const platformRow = Math.floor(platformSprite.y / GRID_SIZE);
 
-        if (platformRow === row) {
-          const platformType = row % 2 === 0 ? GridObjectType.LOG : GridObjectType.LEAF;
+        if (platformRow === rowInfo.index) {
+          const platformType = rowInfo.index % 2 === 0 ? GridObjectType.LOG : GridObjectType.LEAF;
           
           // Platform spans multiple columns
           const leftCol = Math.max(0, Math.floor((platformSprite.x - platformSprite.displayWidth / 2) / GRID_SIZE));
@@ -199,7 +191,7 @@ export class CollisionManager {
           }
         }
       });
-    }
+    });
   }
 
   /**

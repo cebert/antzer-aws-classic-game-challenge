@@ -7,39 +7,32 @@ import Phaser from 'phaser';
 import { GRID_SIZE, ImageKeys, Direction } from '../config/constants';
 import { LEVEL_1_CONFIG } from '../config/level1';
 import { GridSystem, GridObjectType, CellType } from './grid-system';
+import { LevelAnalyzer } from './level-analyzer';
 import { Collectible, CollectibleType } from '../objects/collectible';
 import { Obstacle, ObstacleType } from '../objects/obstacle';
 import { Platform, PlatformType } from '../objects/platform';
 
-// Constants for level building
-const WATER_ROW_START = 2;
-const WATER_ROW_COUNT = 3;
 const PLATFORM_BUFFER = 400;
 const PLATFORM_GAP = 50;
 const PLATFORM_SPAWN_DELAY = 10;
 
-// Platform dimensions
 const LOG_WIDTH = 150;
 const LEAF_WIDTH = 120;
 
-// Platform speeds for each water row
 const PLATFORM_SPEEDS = [25, 35, 30];
 
-// Background tile indices
 const TILE_INDICES = {
   GRASS: 0,
   WATER: 9,
   ROAD: 4
 };
 
-// Obstacle speeds
 const OBSTACLE_SPEEDS = {
   POISON: 60,
   NAIL: 40,
   SPRAY: 80
 } as const;
 
-// Ant hill display size
 const ANT_HILL_SIZE = 64;
 
 /**
@@ -60,6 +53,8 @@ export class LevelBuilder {
   private scene: Phaser.Scene;
   /** Reference to the grid system */
   private gridSystem: GridSystem;
+  /** Level analyzer for dynamic row type detection */
+  private levelAnalyzer: LevelAnalyzer;
 
   /**
    * Creates a new LevelBuilder instance
@@ -69,6 +64,7 @@ export class LevelBuilder {
   constructor(scene: Phaser.Scene, gridSystem: GridSystem) {
     this.scene = scene;
     this.gridSystem = gridSystem;
+    this.levelAnalyzer = new LevelAnalyzer();
   }
 
   /**
@@ -133,18 +129,18 @@ export class LevelBuilder {
    */
   public createWaterPlatforms(platforms: Phaser.Physics.Arcade.Group): void {
     const width = this.scene.cameras.main.width;
+    const waterRows = this.levelAnalyzer.getWaterRows();
     
-    // Create water zones - 3 water rows: LOG, LEAF, LOG (rows 2-4)
-    for (let i = 0; i < WATER_ROW_COUNT; i++) {
-      const waterRow = WATER_ROW_START + i;
-      const y = waterRow * GRID_SIZE;
+    // Create platforms for each water row
+    waterRows.forEach((rowInfo, index) => {
+      const y = rowInfo.index * GRID_SIZE;
       
-      // Alternate platform types: LOG, LEAF, LOG
-      const platformType = i % 2 === 0 ? PlatformType.LOG : PlatformType.LEAF;
-      const direction = i % 2 === 0 ? Direction.RIGHT : Direction.LEFT;
+      // Alternate platform types: LOG, LEAF, LOG, etc.
+      const platformType = index % 2 === 0 ? PlatformType.LOG : PlatformType.LEAF;
+      const direction = rowInfo.platformDirection === 'RIGHT' ? Direction.RIGHT : Direction.LEFT;
       
-      // Get speed for this row
-      const speed = PLATFORM_SPEEDS[i];
+      // Get speed for this row (cycle through available speeds)
+      const speed = PLATFORM_SPEEDS[index % PLATFORM_SPEEDS.length];
       
       // Calculate platform spacing
       const platformWidth = platformType === PlatformType.LOG ? LOG_WIDTH : LEAF_WIDTH;
@@ -180,7 +176,7 @@ export class LevelBuilder {
           }
         });
       }
-    }
+    });
   }
 
   /**
@@ -205,8 +201,7 @@ export class LevelBuilder {
    * @param collectibles - Physics group to add collectible sprites to
    */
   public createCollectibleSprites(collectibles: Phaser.Physics.Arcade.Group): void {
-    // Place random collectibles first
-    this.gridSystem.placeRandomCollectibles();
+    // Collectibles are loaded from level definition - no random placement needed
 
     // Create visual sprites for all collectibles
     const cherries = this.gridSystem.getAllCellsOfType(GridObjectType.CHERRY);
@@ -255,17 +250,17 @@ export class LevelBuilder {
         collectibles.add(cookie);
         break;
       case GridObjectType.POISON:
-        const poisonDirection = row % 2 === 0 ? Direction.RIGHT : Direction.LEFT;
+        const poisonDirection = this.levelAnalyzer.getObstacleDirection(row) === 'RIGHT' ? Direction.RIGHT : Direction.LEFT;
         const poison = new Obstacle(this.scene, x, y, ObstacleType.POISON, OBSTACLE_SPEEDS.POISON, poisonDirection);
         obstacles.add(poison);
         break;
       case GridObjectType.NAIL:
-        const nailDirection = row % 2 === 0 ? Direction.RIGHT : Direction.LEFT;
+        const nailDirection = this.levelAnalyzer.getObstacleDirection(row) === 'RIGHT' ? Direction.RIGHT : Direction.LEFT;
         const nail = new Obstacle(this.scene, x, y, ObstacleType.NAIL, OBSTACLE_SPEEDS.NAIL, nailDirection);
         obstacles.add(nail);
         break;
       case GridObjectType.SPRAY:
-        const sprayDirection = row % 2 === 0 ? Direction.RIGHT : Direction.LEFT;
+        const sprayDirection = this.levelAnalyzer.getObstacleDirection(row) === 'RIGHT' ? Direction.RIGHT : Direction.LEFT;
         const spray = new Obstacle(this.scene, x, y, ObstacleType.SPRAY, OBSTACLE_SPEEDS.SPRAY, sprayDirection);
         obstacles.add(spray);
         break;

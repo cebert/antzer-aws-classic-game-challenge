@@ -229,12 +229,6 @@ export class LoadingScene extends Phaser.Scene {
       frameWidth: 192, // 1536 / 8 frames = 192px per frame
       frameHeight: 1024
     });
-    
-    // Frog obstacle spritesheet (512x64 total, 64x64 per frame, 8 frames)
-    this.load.spritesheet(ImageKeys.FROG, 'assets/images/frog-spritesheet.png', {
-      frameWidth: 64,
-      frameHeight: 64
-    });
   }
 
   /**

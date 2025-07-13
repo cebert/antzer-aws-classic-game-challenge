@@ -7,7 +7,6 @@ import Phaser from 'phaser';
 import { SceneKeys, AudioKeys, GRID_SIZE } from '../config/constants';
 import { AudioManager } from '../utils/audio-manager';
 
-// Constants for UI layout and behavior
 const UI_MARGIN = 20;
 const UI_FONT_SIZE = '24px';
 const UI_FONT_FAMILY = 'Arial';

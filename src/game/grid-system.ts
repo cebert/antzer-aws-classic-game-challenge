@@ -6,11 +6,7 @@
 import { GRID_SIZE } from '../config/constants';
 import { LEVEL_1, LEVEL_1_CONFIG } from '../config/level1';
 
-// Constants for collectible placement
-const CHERRY_COUNT = 8;
-const COOKIE_COUNT = 3;
-const BOTTOM_GRASS_ROWS = 3;
-const TOP_GRASS_ROWS = 2;
+// Collectibles are now defined in the level file only - no random placement
 
 /**
  * Enumeration of different terrain types that can exist in grid cells
@@ -73,23 +69,16 @@ export interface GridCell {
  * and game logic in the Frogger-style gameplay.
  */
 export class GridSystem {
-  /** 2D array representing the game grid */
   private gameGrid: GridCell[][] = [];
-  /** Width of the grid in cells */
   private gridWidth: number = 0;
-  /** Height of the grid in cells */
   private gridHeight: number = 0;
 
-  /**
-   * Creates a new GridSystem instance and initializes the grid from level data
-   */
   constructor() {
     this.initializeGrid();
   }
 
   /**
    * Gets the width of the grid in cells
-   * @returns The grid width
    */
   public getGridWidth(): number {
     return this.gridWidth;
@@ -97,7 +86,6 @@ export class GridSystem {
 
   /**
    * Gets the height of the grid in cells
-   * @returns The grid height
    */
   public getGridHeight(): number {
     return this.gridHeight;
@@ -105,9 +93,6 @@ export class GridSystem {
 
   /**
    * Gets the cell information at the specified grid coordinates
-   * @param row - The row index (0-based)
-   * @param col - The column index (0-based)
-   * @returns The cell information, or null if coordinates are out of bounds
    */
   public getCell(row: number, col: number): GridCell | null {
     if (row >= 0 && row < this.gridHeight && col >= 0 && col < this.gridWidth) {
@@ -169,29 +154,7 @@ export class GridSystem {
     }
   }
 
-  /**
-   * Randomly places collectible items in appropriate areas of the grid.
-   * Places cherries in bottom grass area and cookies in top grass area.
-   */
-  public placeRandomCollectibles(): void {
-    // Place cherries in bottom grass area
-    for (let i = 0; i < CHERRY_COUNT; i++) {
-      const col = Math.floor(Math.random() * this.gridWidth);
-      const row = Math.floor(Math.random() * BOTTOM_GRASS_ROWS) + (this.gridHeight - BOTTOM_GRASS_ROWS);
-      if (this.gameGrid[row][col].object === GridObjectType.NONE) {
-        this.setCell(row, col, GridObjectType.CHERRY);
-      }
-    }
-    
-    // Place cookies in top grass area
-    for (let i = 0; i < COOKIE_COUNT; i++) {
-      const col = Math.floor(Math.random() * this.gridWidth);
-      const row = Math.floor(Math.random() * TOP_GRASS_ROWS);
-      if (this.gameGrid[row][col].object === GridObjectType.NONE) { // Don't overwrite ant hill
-        this.setCell(row, col, GridObjectType.COOKIE);
-      }
-    }
-  }
+  // Collectibles are now loaded from level definition only - no random placement needed
 
   /**
    * Finds all cells containing objects of the specified type

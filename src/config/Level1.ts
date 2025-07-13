@@ -32,28 +32,28 @@
 export const LEVEL_1 = [
   // Row 0 (top - goal area with ant hill and cookie)
   'GGGGGGHGGGKGGGGG',
-  // Row 1 (safe grass with cherry)
-  'GGGGGGGGCGGGGGGG',
+  // Row 1 (safe grass with cherries)
+  'GGCGGGGGCGGGCGGG',
   // Row 2 (water - logs spawn dynamically moving right)
   'WWWWWWWWWWWWWWWW',
   // Row 3 (water - leaves spawn dynamically moving left)
   'WWWWWWWWWWWWWWWW',
   // Row 4 (water - logs spawn dynamically moving right)
   'WWWWWWWWWWWWWWWW',
-  // Row 5 (safe middle zone)
-  'GGGGGGGGGGGGGGGG',
+  // Row 5 (safe middle zone with strategic collectibles)
+  'GCGGGGGGGGGGGGCG',
   // Row 6 (road with poison obstacles - moving right)
   'RPRRRRPRRRRRPRR',
   // Row 7 (road with spray obstacles - moving left)  
   'RRYRRRYRRRYRRYR',
   // Row 8 (road with nail obstacles - moving right)
   'RNRRRRRRNRRRRRN',
-  // Row 9 (safe grass with cherry)
-  'GGGGGGGGGCGGGGGG',
+  // Row 9 (safe grass with cherries)
+  'GGGCGGGGGGCGGGGG',
   // Row 10 (starting area with ant, cherry, and cookie)
   'GGGCGGAGGGGGGGKG',
-  // Row 11 (starting area - safe grass)
-  'GGGGGGGGGGGGGGGG'
+  // Row 11 (starting area - safe grass with collectibles)
+  'GCGGGGGGGGGGGGCG'
 ];
 
 /**
