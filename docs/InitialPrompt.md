@@ -1,4 +1,4 @@
-# Overview
+# Prompt Instructions
 
 Create a retro arcade game called "Antzer" inspired by Frogger for the [AWS Build Games Challenge](https://community.aws/content/2y6egGcPAGQs8EwtQUM9KAONojz/build-games-challenge-build-classics-with-amazon-q-developer-cli). The game features a muscular, athletic ant navigating obstacles to reach its ant hill while collecting treats for points.
 
