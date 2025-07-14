@@ -12,6 +12,12 @@ Amazon Q Developer CLI did a reasonable job of building this game. I only needed
 
 As of July 2025, Q's multimodal support was unable to generate images or sound files. To work around this, I used ChatGPT to create the game images. I would write instructions for an image that was needed, and copied the generated image into the repository. Similarly, for sound files, I download royalty-free sound files from [FreeSound.org](https://freesound.org) and converted them to .mp3 files.
 
+### Initial Prompt
+
+When generating code using agentic software, its crucial to invest considerable upfront time on creating a detailed initial prompt. [InitialPrompt](docs/InitialPrompt.md) is a link to the initial prompt I used to create this game. 
+
+If I could start over, this prompt could have been improved by stating my preferred file structure, TypeScript file naming conventions, graphical details, and success criteria more explicitly. My initial prompt worked reasonably well, but I had to work through these details with the LLM. I think being more explicit up front could have saved time. It also took some time to sort out the grid-based gameplay mechanics; possibly spending more time defining them in my initial prompt would have been helpful.
+
 ### Amazon Q Developer CLI
 
 As part of this project, I learned that Q's CLI has undergone significant improvements. If you haven't tried Q recently, it may be worth reevaluating it and giving it a second try. Amazon Q is a brand offering a range of products and experiences. The Amazon Q Developer CLI is related to, but different from, the Amazon Q Developer extension. Similarly, Amazon Q in the AWS Console is not the same as the CLI. If you have tried any other Q variants, the CLI is a different product.
