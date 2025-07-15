@@ -1,12 +1,12 @@
 # Antzer
 
 ## Overview 
-Antzer is a retro arcade game inspired by Frogger, created for the [July 2025 AWS Build Games Challenge](https://community.aws/content/2y6egGcPAGQs8EwtQUM9KAONojz/build-games-challenge-build-classics-with-amazon-q-developer-cli?lang=en). In this game, you control an ant trying to reach its ant hill while avoiding obstacles and collecting treats for points. This gameplay idea was suggested by my eight-year-old son, Ryan, who thought it would be a fun and interesting submission for the challenge. I couldn't agree more! [Play Antzer here!](https://cebert.github.io/antzer-aws-classic-game-challenge/).
+Antzer is a retro arcade game inspired by Frogger, created for the [July 2025 AWS Build Games Challenge](https://community.aws/content/2y6egGcPAGQs8EwtQUM9KAONojz/build-games-challenge-build-classics-with-amazon-q-developer-cli?lang=en). In this game, you control an ant trying to reach its ant hill while avoiding obstacles and collecting treats for points. This gameplay idea was suggested by my eight-year-old son, Ryan, who thought it would be a fun and engaging submission for the challenge. I couldn't agree more! [Play Antzer here!](https://cebert.github.io/antzer-aws-classic-game-challenge/).
 
-Antzer is an HTML5-based game with minimal dependencies. You can play this game on a desktop, mobile device, or tablet. However, currently the desktop experience is best (this game could use a few mobile improvements).
+Antzer is an HTML5-based game with minimal dependencies. You can play this game on a desktop, mobile device, or tablet. However, currently, the desktop experience is the best (this game could use a few improvements for a great mobile experience).
 
 ## Implementation 
-This game was created almost entirely "vibe coded" using AI, using the Amazon Q Developer CLI as an expirment. Antzer is a fun, non-serious project. Q was used to generate code, design elements, and even suggest gameplay mechanics. While **this project does not represent my best work** or what I would consider production code, it was a fun opportunity to gain more exposure to the Amazon Q Developer CLI. Most of my professional work is with Claude Code or GitHub Copilot. I was excited to give Q a try for this challenge.
+This game was created almost entirely "vibe coded" using AI, using the Amazon Q Developer CLI as an experiment. Antzer is a fun, non-serious project. Q was used to generate code, design elements, and even suggest gameplay mechanics. While this project does not represent my best work or what I would consider production code, it was a fun, time-boxed opportunity to gain more exposure to the Amazon Q Developer CLI. Most of my professional work is with Claude Code or GitHub Copilot. I was excited to give Q a try for this challenge. You can read more about my experience using Q CLI in my blog post titled [Giving AWS Q Developer CLI a second look](https://chrisebert.net/giving-aws-q-developer-cli-a-second-look/)
 
 Amazon Q Developer CLI did a reasonable job of building this game. I only needed to make a few minor code tweaks and perform some cleanup tasks to have a basic, working game. I don't see this game becoming a top hit, but it was a fun project and a great way to spend some time discussing software and AI with my son.
 
@@ -14,9 +14,9 @@ As of July 2025, Q's multimodal support was unable to generate images or sound f
 
 ### Initial Prompt
 
-When generating code using agentic software, its crucial to invest considerable upfront time on creating a detailed initial prompt. [InitialPrompt](docs/InitialPrompt.md) is a link to the initial prompt I used to create this game. 
+When generating code using agentic software, it's crucial to invest considerable upfront time creating a detailed initial prompt. [Initial Prompt](docs/InitialPrompt.md) is a link to the initial prompt I used to make this game. 
 
-If I could start over, this prompt could have been improved by stating my preferred file structure, TypeScript file naming conventions, graphical details, and success criteria more explicitly. My initial prompt worked reasonably well, but I had to work through these details with the LLM. I think being more explicit up front could have saved time. It also took some time to sort out the grid-based gameplay mechanics; possibly spending more time defining them in my initial prompt would have been helpful.
+If I could start over, this prompt could have been improved by stating my preferred file structure, TypeScript file naming conventions, graphical details, and success criteria more explicitly. My initial prompt worked reasonably well, but I had to refine the details with the LLM. Being more explicit up front could have saved time. It also took some time to sort out the grid-based gameplay mechanics. Spending more time defining these details in my initial prompt would have been helpful.
 
 ### Amazon Q Developer CLI
 
@@ -26,17 +26,17 @@ Amazon provides instructions for installing the Amazon Q Developer CLI ([Product
 
 Installing Q CLI is straightforward, and Amazon has instructions on how to install it on all major OS platforms. If you're on a Mac, using the [brew](https://brew.sh/) command `brew install amazon-q` as documented in the [Getting Started with Amazon Q CLI](https://github.com/094459/aqd-cli-workshop/blob/main/workshop/01a-setup.md) guide is an easy way to get started. After installing `amazon-q`, I had to open the Amazon Q app on my Mac once and allow shell access and accessibility integrations.
 
-The Q Developer CLI allows you to select which model you would like to use during an agent chat session. For this project, I exclusively used the Claude Sonnet 4 model exclusively.
+The Q Developer CLI allows you to select which model you would like to use during an agent chat session. For this project, I exclusively used the Claude Sonnet 4 model.
 
 ## Play the Game
 
 🎮 **[Play Antzer Online](https://cebert.github.io/antzer-aws-classic-game-challenge/)**
 
-The game is deployed and ready to play! Use arrow keys to move your ant and try to reach the ant hill while avoiding obstacles and collecting treats.
+The game is deployed and ready to play! Use the arrow keys to move your ant and try to reach the ant hill while avoiding obstacles and collecting treats.
 
 ## Game Concept
 
--  **Objective**: The primary objective of Anzter is the ant to reach the ant hill at the top of the screen while avoiding death from harmful objects such as nails, bug spray, poison, and water. If you manage to survive, you can compare your completion time with others for bragging rights.
+-  **Objective**: The primary objective of Anzter is for our beloved ant to reach the ant hill at the top of the screen while avoiding death from harmful objects such as nails, bug spray, poison, and water. If you manage to survive, you can compare your completion time with others to brag about your achievement.
 -  **Perspective**: Direct top-down view (bird's eye view) of a flat playing field
 -  **Gameplay**: Classic Frogger-style grid-based movement and collision detection
 -  **Scoring**: Collect cherries (10 points) and cookies (20 points) for bonus points
@@ -46,7 +46,7 @@ Players use up/down/left/right arrow keys to move their ant through the game in 
 
 ## Game Layout
 
-The game uses two systems: a level definition grid for static elements and dynamic spawning for moving objects. This game currently only has a single level. However, levels are loaded from configuration. It should be easy to add additional levels to this game in the future. Here's an example a simple level definition:  
+The game uses two systems: a level definition grid for static elements and dynamic spawning for moving objects. This game currently only has a single level. However, levels are loaded from configuration files. It should be easy to add additional levels to this game in the future. Here's an example of a simple level definition:  
 
 ```text
 GGGGGGHHGGGGGGGG ← Row 0: Goal area with ant Hill
@@ -80,16 +80,16 @@ GGGGGGGGGGGGGGGG ← Row 11: Safe area
 -  **Perspective**: Direct top-down view where players look straight down at the game world, as if looking at a flat surface from above
 -  **Characters**: All characters and objects are viewed from above - the ant is brown/reddish with visible antennae and six legs
 -  **Movement**: The ant moves from the bottom of the screen toward the ant hill at the top
--  **Art Assets**: All game images were generated using ChatGPT to create consistent visual elements including sprite sheets, backgrounds, and UI components
+-  **Art Assets**: All game images were generated using ChatGPT to create consistent visual elements, including sprite sheets, backgrounds, and UI components
   
 ## Features
 
 -  **Grid-Based Architecture**: Clean, extensible collision system that supports future level designs
 -  **Classic Frogger Mechanics**: Avoid obstacles, ride logs across water
--  **Real-time Grid Updates**: Moving platforms and obstacles seamlessly integrate with grid system
--  **Keyboard Controls**: Arrow keys for gme movement (desktop only)
+-  **Real-time Grid Updates**: Moving platforms and obstacles seamlessly integrate with the grid system
+-  **Keyboard Controls**: Arrow keys for game movement (desktop only)
 -  **Sound Effects and Music**: Audio feedback for actions and atmosphere with user interaction-based audio start
--  **Score System**: Collect cherries (10 points) and cookies (20 points) for bonus points while reaching the goal with in the lowest total time.
+-  **Score System**: Collect cherries (10 points) and cookies (20 points) for bonus points while reaching the goal within the lowest total time.
 
   
 
@@ -100,7 +100,7 @@ GGGGGGGGGGGGGGGG ← Row 11: Safe area
 The game uses a hybrid grid-based collision system:
 -  **2D Grid Array**: Each cell contains type (grass/water/road) and object (none/obstacle/collectible)
 -  **Static Elements**: Defined in level configuration (obstacles, collectibles, terrain)
--  **Dynamic Elements**: Logs and leaves spawn continuously using separate spawning system
+-  **Dynamic Elements**: Logs and leaves spawn continuously using a separate spawning system
 -  **Real-time Updates**: Moving objects update their grid positions each frame
 -  **Safety Calculation**: Each cell's safety is computed based on type + object combination
 -  **Extensible Design**: Easy to add new cell types, objects, and level layouts
@@ -160,9 +160,9 @@ The game is fully playable with all core mechanics implemented:
 
 - [Frogger](https://en.wikipedia.org/wiki/Frogger), which is one of the best classic arcade games ever created
 - Created for the [AWS Build Games Challenge](https://community.aws/content/2y6egGcPAGQs8EwtQUM9KAONojz/build-games-challenge-build-classics-with-amazon-q-developer-cli?lang=en)
-- Ryan Ebert for game suggestion and gameplay ideas
+- Ryan Ebert for game suggestions and gameplay ideas
 - Developed with assistance from [Amazon Q Developer CLI](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line.html)
-- All visual assets (sprites, backgrounds, UI elements) generated using ChatGPT because as of 7/2025 Q CLI does not support this
+- All visual assets (sprites, backgrounds, UI elements) generated using ChatGPT because, as of 7/202,5 Q CLI does not support this
 - [Phaser 3](https://phaser.io/) and [TypeScript](https://www.typescriptlang.org/)
 - [FreeSound.org](https://freesound.org) for all sound files
 - [ChatGPT](https://chatgpt.com/) for generated images 
