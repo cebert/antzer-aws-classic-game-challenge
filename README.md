@@ -6,9 +6,11 @@ Antzer is a retro arcade game inspired by Frogger, created for the [July 2025 AW
 Antzer is an HTML5-based game with minimal dependencies. You can play this game on a desktop, mobile device, or tablet. However, currently, the desktop experience is the best (this game could use a few improvements for a great mobile experience).
 
 ## Implementation 
-This game was created almost entirely "vibe coded" using AI, using the Amazon Q Developer CLI as an experiment. Antzer is a fun, non-serious project. Q was used to generate code, design elements, and even suggest gameplay mechanics. While this project does not represent my best work or what I would consider production code, it was a fun, time-boxed opportunity to gain more exposure to the Amazon Q Developer CLI. Most of my professional work is with Claude Code or GitHub Copilot. I was excited to give Q a try for this challenge. You can read more about my experience using Q CLI in my blog post titled [Giving AWS Q Developer CLI a second look](https://chrisebert.net/giving-aws-q-developer-cli-a-second-look/)
+This game was created almost entirely "vibe coded" using AI, using the Amazon Q Developer CLI as an experiment. Antzer is a fun, non-serious project. Q was used to generate code, design elements, and even suggest gameplay mechanics. While this project does not represent my best work or what I would consider production code, it was a fun, time-boxed opportunity to gain more exposure to the Amazon Q Developer CLI. Most of my professional work is with Claude Code or GitHub Copilot. I was excited to give Q a try for this challenge.
 
 Amazon Q Developer CLI did a reasonable job of building this game. I only needed to make a few minor code tweaks and perform some cleanup tasks to have a basic, working game. I don't see this game becoming a top hit, but it was a fun project and a great way to spend some time discussing software and AI with my son.
+
+You can read more about my experience using Q CLI in my blog post titled [Giving AWS Q Developer CLI a second look](https://chrisebert.net/giving-aws-q-developer-cli-a-second-look/)
 
 As of July 2025, Q's multimodal support was unable to generate images or sound files. To work around this, I used ChatGPT to create the game images. I would write instructions for an image that was needed, and copied the generated image into the repository. Similarly, for sound files, I download royalty-free sound files from [FreeSound.org](https://freesound.org) and converted them to .mp3 files.
 
